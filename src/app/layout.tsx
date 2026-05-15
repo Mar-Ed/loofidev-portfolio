@@ -61,6 +61,31 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: "tu_codigo_de_verificacion_aqui", // Opcional: Para facilitar la validación en GSC
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Loofi Dev",
+  "url": "https://loofidev.com",
+  "logo": "https://loofidev.com/logo_oficial.jpeg",
+  "sameAs": [
+    "https://www.linkedin.com/company/loofidev",
+    "https://www.instagram.com/loofidev"
+  ],
+  "description": "Agencia de desarrollo de software y diseño web de alto impacto. Especialistas en ERP, CRM y arquitecturas escalables.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "PE"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "sales",
+    "availableLanguage": ["Spanish", "English"]
+  }
 };
 
 export default function RootLayout({
@@ -70,6 +95,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={inter.variable}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="font-sans antialiased">
         <SmokeEffect />
         <SmoothScroll />
