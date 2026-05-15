@@ -14,11 +14,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://loofidev.com'),
   title: {
-    default: "Loofi Dev | Agencia de Desarrollo Web y Software",
+    default: "Desarrollo Web y Páginas Web en el Perú | Loofi Dev",
     template: "%s | Loofi Dev"
   },
-  description: "En Loofi Dev transformamos ideas complejas en soluciones tecnológicas escalables, eficientes y a medida. Diseño web, desarrollo de software y aplicaciones.",
-  keywords: ["Desarrollo web", "Agencia de software", "Creación de páginas web", "Desarrollo a medida", "Loofi Dev", "Loofidev", "Aplicaciones web", "Diseño UI/UX"],
+  description: "Desarrollador web experto en la creación de páginas web, sistemas ERP y CRM en Lima y todo el Perú. Soluciones de software de alto impacto.",
+  keywords: ["desarrollo web peru", "desarrollador web peru", "paginas web peru", "creacion de paginas web peru", "diseño web lima", "agencia de software peru", "Loofi Dev", "desarrollo web lima"],
   authors: [{ name: "Loofi Dev", url: "https://loofidev.com" }],
   creator: "Loofi Dev",
   openGraph: {
@@ -76,9 +76,11 @@ const jsonLd = {
     "https://www.linkedin.com/company/loofidev",
     "https://www.instagram.com/loofidev"
   ],
-  "description": "Agencia de desarrollo de software y diseño web de alto impacto. Especialistas en ERP, CRM y arquitecturas escalables.",
+  "description": "Agencia de desarrollo de software y diseño web en Lima, Perú. Especialistas en ERP, CRM y páginas web de alto impacto.",
   "address": {
     "@type": "PostalAddress",
+    "addressLocality": "Lima",
+    "addressRegion": "Lima",
     "addressCountry": "PE"
   },
   "contactPoint": {

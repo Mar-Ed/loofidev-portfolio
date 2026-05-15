@@ -149,7 +149,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl font-medium leading-relaxed lg:border-l-2 lg:border-cyan-500/30 lg:pl-6 mx-auto lg:mx-0"
           >
-            <strong className="text-white font-bold">Desarrollo Web</strong> de Alto Impacto para tu Negocio. Transformamos ideas complejas en arquitecturas altamente escalables y eficientes.
+            <strong className="text-white font-bold">Desarrollador Web</strong> y experto en <strong className="text-white font-bold">Páginas Web</strong> de Alto Impacto en <strong className="text-white font-bold">Lima y todo el Perú</strong>. Creación de sitios web y software a medida.
           </motion.p>
           
           <motion.div 
