@@ -52,6 +52,11 @@ const SmokeEffect: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    // Detect mobile screens to avoid performance penalties on touch devices
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -69,7 +74,7 @@ const SmokeEffect: React.FC = () => {
     const sparks: Spark[] = [];
     let colorIndex = 0;
     let targetColor: string | null = null;
-    const isMobile = window.innerWidth < 768;
+    const isMobile = false; // Always false since we early return on mobile viewports
     
     const PALETTE = [
       '#00f2ff', // neon-blue
@@ -104,7 +109,7 @@ const SmokeEffect: React.FC = () => {
         color: baseColor 
       });
 
-      const sparkFrequency = isMobile ? 0.7 : 0.4;
+      const sparkFrequency = 0.4;
       if (Math.random() > sparkFrequency) {
         sparks.push(new Spark(clientX, clientY, baseColor, isMobile));
       }
@@ -129,14 +134,7 @@ const SmokeEffect: React.FC = () => {
       }
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches[0]) {
-        handleInput(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    };
-
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove);
 
     let animationId: number;
     const animate = () => {
@@ -166,13 +164,11 @@ const SmokeEffect: React.FC = () => {
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p2.x, p2.y);
           
-          ctx.lineWidth = p2.life * (isMobile ? 4 : 6);
+          ctx.lineWidth = p2.life * 6;
           ctx.strokeStyle = p2.color;
           ctx.globalAlpha = Math.max(0, p2.life * 0.8);
-          if (!isMobile) {
-            ctx.shadowBlur = 20;
-            ctx.shadowColor = p2.color;
-          }
+          ctx.shadowBlur = 20;
+          ctx.shadowColor = p2.color;
           
           ctx.stroke();
         }
@@ -197,7 +193,6 @@ const SmokeEffect: React.FC = () => {
     return () => {
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
       cancelAnimationFrame(animationId);
     };
   }, []);
@@ -205,7 +200,7 @@ const SmokeEffect: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="smoke-effect-canvas"
+      className="smoke-effect-canvas hidden md:block"
       style={{
         position: 'fixed',
         top: 0,

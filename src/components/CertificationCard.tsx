@@ -48,23 +48,25 @@ export default function CertificationCard({
   useEffect(() => {
     // Smooth Entrance Animation
     if (cardRef.current) {
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
       gsap.fromTo(cardRef.current,
         { 
           opacity: 0, 
-          y: 40, 
-          scale: 0.96,
-          filter: "blur(4px)" 
+          y: isMobile ? 20 : 40, 
+          scale: isMobile ? 1 : 0.96,
+          filter: isMobile ? "none" : "blur(4px)" 
         },
         { 
           opacity: 1, 
           y: 0, 
           scale: 1,
-          filter: "blur(0px)",
-          duration: 1.2, 
+          filter: "none",
+          duration: isMobile ? 0.6 : 1.2, 
           ease: "power4.out",
           scrollTrigger: {
             trigger: cardRef.current,
-            start: "top 90%",
+            start: isMobile ? "top 95%" : "top 90%",
             toggleActions: "play none none reverse"
           }
         }

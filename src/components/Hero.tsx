@@ -50,6 +50,13 @@ export default function Hero() {
 
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    setShowVideo(!isMobile);
+
+    if (isMobile) {
+      return; // Early return to avoid starting particle calculations & rendering on mobile viewports
+    }
+
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -58,15 +65,15 @@ export default function Hero() {
     const particles: Particle[] = []
     
     const resize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      if (canvas) {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+      }
     }
     window.addEventListener('resize', resize)
     resize()
 
-    const isMobile = window.innerWidth < 768;
-    const particleCount = isMobile ? 40 : 120;
-    setShowVideo(!isMobile);
+    const particleCount = 120;
 
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle(canvas.width, canvas.height))
@@ -119,7 +126,7 @@ export default function Hero() {
       <div className="absolute top-2/3 right-[10%] w-[500px] h-[500px] bg-blue-500/20 blur-[150px] rounded-[100%] pointer-events-none z-2" />
 
       {/* Particle Canvas - Increased opacity */}
-      <canvas ref={canvasRef} className="absolute inset-0 z-2 pointer-events-none opacity-60" id="heroCanvas" />
+      <canvas ref={canvasRef} className="absolute inset-0 z-2 pointer-events-none opacity-60 hidden md:block" id="heroCanvas" />
       
       <div className="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-20">
         <div className="flex-1 text-center lg:text-left mt-10 lg:mt-0">
