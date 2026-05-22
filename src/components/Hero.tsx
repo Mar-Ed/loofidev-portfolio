@@ -146,6 +146,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-6xl md:text-8xl lg:text-[110px] font-bold tracking-[-0.04em] mb-6 leading-[0.9]"
           >
+            <span className="sr-only">Loofi Dev - Agencia de Desarrollo Web y Software</span>
             LOOFI<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">DEV</span>
           </motion.h1>
           
@@ -155,7 +156,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl font-medium leading-relaxed lg:border-l-2 lg:border-cyan-500/30 lg:pl-6 mx-auto lg:mx-0"
           >
-            <strong className="text-white font-bold">Desarrollo Web</strong> de Alto Impacto para tu Negocio. Transformamos ideas complejas en arquitecturas altamente escalables y eficientes.
+            <strong className="text-white font-bold">Desarrollador Web</strong> y experto en <strong className="text-white font-bold">Páginas Web</strong> de Alto Impacto en <strong className="text-white font-bold">Lima y todo el Perú</strong>. Creación de sitios web y software a medida.
           </motion.p>
           
           <motion.div 
@@ -249,7 +250,7 @@ export default function Hero() {
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
               className="absolute -bottom-8 -right-4 md:-bottom-12 md:-right-12 w-32 h-32 md:w-40 md:h-40 bg-[#0a0a0b]/40 border border-white/20 rounded-[2rem] p-3 shadow-[0_30px_60px_rgba(0,0,0,0.8)] z-20 backdrop-blur-md"
             >
-              <Image src="/logo_oficial.jpeg" alt="Logo" width={160} height={160} className="w-full h-full object-contain rounded-2xl shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]" />
+              <Image src="/logo_oficial.jpeg" alt="Logotipo de Loofi Dev - Agencia de Desarrollo Web y Software Premium" width={160} height={160} className="w-full h-full object-contain rounded-2xl shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]" />
             </motion.div>
           </motion.div>
         </motion.div>
