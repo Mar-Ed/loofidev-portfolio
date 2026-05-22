@@ -47,10 +47,12 @@ class Particle {
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [showVideo, setShowVideo] = React.useState(false)
+  const [isDesktop, setIsDesktop] = React.useState(false)
 
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
+    setIsDesktop(!isMobile);
     setShowVideo(!isMobile);
 
     if (isMobile) {
@@ -131,9 +133,9 @@ export default function Hero() {
       <div className="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-20">
         <div className="flex-1 text-center lg:text-left mt-10 lg:mt-0">
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={isDesktop ? { opacity: 0, x: -30 } : { opacity: 1, x: 0 }}
+            animate={isDesktop ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
+            transition={isDesktop ? { duration: 0.8 } : undefined}
             className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-mono font-bold tracking-widest uppercase mb-8 backdrop-blur-md"
           >
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -141,9 +143,9 @@ export default function Hero() {
           </motion.div>
           
           <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+            animate={isDesktop ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+            transition={isDesktop ? { duration: 0.8, delay: 0.2 } : undefined}
             className="text-6xl md:text-8xl lg:text-[110px] font-bold tracking-[-0.04em] mb-6 leading-[0.9]"
           >
             <span className="sr-only">Loofi Dev - Agencia de Desarrollo Web y Software</span>
@@ -151,18 +153,18 @@ export default function Hero() {
           </motion.h1>
           
           <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+            animate={isDesktop ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+            transition={isDesktop ? { duration: 0.8, delay: 0.4 } : undefined}
             className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl font-medium leading-relaxed lg:border-l-2 lg:border-cyan-500/30 lg:pl-6 mx-auto lg:mx-0"
           >
             <strong className="text-white font-bold">Desarrollador Web</strong> y experto en <strong className="text-white font-bold">Páginas Web</strong> de Alto Impacto en <strong className="text-white font-bold">Lima y todo el Perú</strong>. Creación de sitios web y software a medida.
           </motion.p>
           
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+            animate={isDesktop ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+            transition={isDesktop ? { duration: 0.8, delay: 0.6 } : undefined}
             className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start"
           >
             <button 
@@ -195,14 +197,14 @@ export default function Hero() {
 
         {/* Floating Architect Element */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
+          initial={isDesktop ? { opacity: 0, scale: 0.9 } : { opacity: 1, scale: 1 }}
+          animate={isDesktop ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
+          transition={isDesktop ? { duration: 1, delay: 0.5 } : undefined}
           className="flex-1 w-full flex justify-center lg:justify-end relative"
         >
           <motion.div 
-            animate={{ y: [-15, 15, -15] }} 
-            transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+            animate={isDesktop ? { y: [-15, 15, -15] } : undefined} 
+            transition={isDesktop ? { repeat: Infinity, duration: 6, ease: "easeInOut" } : undefined}
             className="relative w-full max-w-[460px] lg:mr-[-2rem]"
           >
             {/* Super Glow background */}
@@ -246,8 +248,8 @@ export default function Hero() {
             
             {/* Floating Image element */}
             <motion.div 
-              animate={{ y: [10, -10, 10], rotate: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
+              animate={isDesktop ? { y: [10, -10, 10], rotate: [0, 5, 0] } : undefined}
+              transition={isDesktop ? { repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 } : undefined}
               className="absolute -bottom-8 -right-4 md:-bottom-12 md:-right-12 w-32 h-32 md:w-40 md:h-40 bg-[#0a0a0b]/40 border border-white/20 rounded-[2rem] p-3 shadow-[0_30px_60px_rgba(0,0,0,0.8)] z-20 backdrop-blur-md"
             >
               <Image src="/logo_oficial.jpeg" alt="Logotipo de Loofi Dev - Agencia de Desarrollo Web y Software Premium" width={160} height={160} className="w-full h-full object-contain rounded-2xl shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]" />
