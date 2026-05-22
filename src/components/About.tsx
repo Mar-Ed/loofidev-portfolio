@@ -4,6 +4,17 @@ import { motion } from 'framer-motion'
 import React from 'react'
 
 export default function About() {
+  const [isDesktop, setIsDesktop] = React.useState(true)
+
+  React.useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 768)
+    }
+    checkDesktop()
+    window.addEventListener('resize', checkDesktop)
+    return () => window.removeEventListener('resize', checkDesktop)
+  }, [])
+
   return (
     <section id="nosotros" className="py-24 px-4 md:px-8 relative bg-black overflow-hidden">
       {/* Background Decorative Elements */}
@@ -13,10 +24,11 @@ export default function About() {
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={isDesktop ? { opacity: 0, x: -30 } : { opacity: 1, x: 0 }}
+            animate={isDesktop ? undefined : { opacity: 1, x: 0 }}
+            whileInView={isDesktop ? { opacity: 1, x: 0 } : undefined}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={isDesktop ? { duration: 0.8 } : { duration: 0 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-8">
               ¿Quiénes <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Somos</span>?
@@ -34,10 +46,11 @@ export default function About() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={isDesktop ? { opacity: 0, scale: 0.9 } : { opacity: 1, scale: 1 }}
+            animate={isDesktop ? undefined : { opacity: 1, scale: 1 }}
+            whileInView={isDesktop ? { opacity: 1, scale: 1 } : undefined}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={isDesktop ? { duration: 0.8 } : { duration: 0 }}
             className="relative"
           >
             <div className="aspect-video rounded-3xl bg-white/5 border border-white/10 p-1 backdrop-blur-sm overflow-hidden group">

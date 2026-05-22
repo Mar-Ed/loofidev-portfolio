@@ -34,6 +34,17 @@ const features = [
 ]
 
 export default function WhyUs() {
+  const [isDesktop, setIsDesktop] = React.useState(true)
+
+  React.useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 768)
+    }
+    checkDesktop()
+    window.addEventListener('resize', checkDesktop)
+    return () => window.removeEventListener('resize', checkDesktop)
+  }, [])
+
   return (
     <section className="py-24 px-4 md:px-8 bg-black relative overflow-hidden">
       <div className="max-w-6xl mx-auto">
@@ -53,10 +64,11 @@ export default function WhyUs() {
           {features.map((feature, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+              animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
+              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
+              transition={isDesktop ? { delay: idx * 0.1 } : undefined}
               className="p-8 rounded-3xl bg-[#0a0a0b] border border-white/5 hover:border-white/10 transition-all flex flex-col items-start gap-6 group"
             >
               <div className="p-4 rounded-2xl bg-white/5 group-hover:scale-110 transition-transform">

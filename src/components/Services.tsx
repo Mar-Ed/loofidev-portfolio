@@ -4,6 +4,17 @@ import React from 'react'
 import { motion } from 'framer-motion'
 
 export default function Services() {
+  const [isDesktop, setIsDesktop] = React.useState(true)
+
+  React.useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 768)
+    }
+    checkDesktop()
+    window.addEventListener('resize', checkDesktop)
+    return () => window.removeEventListener('resize', checkDesktop)
+  }, [])
+
   return (
     <section id="servicios" className="py-24 px-4 md:px-8 bg-black">
       <div className="max-w-6xl mx-auto">
@@ -18,8 +29,9 @@ export default function Services() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* ERP Systems */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
+            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
             viewport={{ once: true }}
             className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-cyan-400/30 transition-all group lg:col-span-1"
           >
@@ -34,10 +46,11 @@ export default function Services() {
 
           {/* CRM Systems */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
+            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            transition={isDesktop ? { delay: 0.1 } : undefined}
             className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-blue-400/30 transition-all group"
           >
             <div className="mb-6 h-16 w-16 flex items-center justify-center rounded-2xl bg-blue-500/10 border border-blue-500/20 group-hover:bg-blue-500/20 transition-all">
@@ -51,10 +64,11 @@ export default function Services() {
 
           {/* Full-Stack Dev */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
+            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            transition={isDesktop ? { delay: 0.2 } : undefined}
             className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-emerald-400/30 transition-all group"
           >
             <div className="mb-6 h-16 w-16 flex items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-all">
@@ -68,10 +82,11 @@ export default function Services() {
 
           {/* Landing Pages */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
+            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
             viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
+            transition={isDesktop ? { delay: 0.3 } : undefined}
             className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-amber-400/30 transition-all group"
           >
             <div className="mb-6 h-16 w-16 flex items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/20 group-hover:bg-amber-500/20 transition-all">
@@ -85,10 +100,11 @@ export default function Services() {
 
           {/* Cloud & DB */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
+            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
             viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
+            transition={isDesktop ? { delay: 0.4 } : undefined}
             className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-purple-400/30 transition-all group"
           >
             <div className="mb-6 h-16 w-16 flex items-center justify-center rounded-2xl bg-purple-500/10 border border-purple-500/20 group-hover:bg-purple-500/20 transition-all">

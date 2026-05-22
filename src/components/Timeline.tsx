@@ -103,9 +103,36 @@ const techIcon = (name: string) => {
 }
 
 export default function Timeline() {
+  const [isDesktop, setIsDesktop] = React.useState(true)
+
+  React.useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 768)
+    }
+    checkDesktop()
+    window.addEventListener('resize', checkDesktop)
+    return () => window.removeEventListener('resize', checkDesktop)
+  }, [])
+
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end start"] })
   const scaleY = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
+
+  const cardAnimationProps = (direction: 'left' | 'right') => {
+    if (!isDesktop) {
+      return {
+        initial: { opacity: 1, x: 0 },
+        animate: { opacity: 1, x: 0 }
+      }
+    }
+    return {
+      initial: { opacity: 0, x: direction === 'left' ? -50 : 50 },
+      whileInView: { opacity: 1, x: 0 },
+      whileHover: { scale: 1.03, y: -10 },
+      viewport: { once: true },
+      transition: { type: "spring" as const, stiffness: 300, damping: 20 }
+    }
+  }
 
   const [topBeautyTab, setTopBeautyTab] = React.useState(0);
   const topBeautyImages = [
@@ -136,17 +163,34 @@ export default function Timeline() {
     <section id="proyectos" className="py-24 bg-black relative">
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         <div className="text-center mb-24">
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-4xl font-extrabold mb-4">Nuestros Proyectos</motion.h2>
-          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="text-gray-500 font-medium italic">Cronología de soluciones tecnológicas de alto impacto.</motion.p>
+          <motion.h2 
+            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }} 
+            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
+            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined} 
+            viewport={{ once: true }} 
+            className="text-4xl font-extrabold mb-4"
+          >
+            Nuestros Proyectos
+          </motion.h2>
+          <motion.p 
+            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }} 
+            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
+            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined} 
+            viewport={{ once: true }} 
+            transition={isDesktop ? { delay: 0.2 } : undefined} 
+            className="text-gray-500 font-medium italic"
+          >
+            Cronología de soluciones tecnológicas de alto impacto.
+          </motion.p>
         </div>
 
         <div className="relative py-10" ref={containerRef}>
           <div className="w-[2px] bg-white/10 absolute left-1/2 -translate-x-1/2 h-full" />
-          <motion.div style={{ scaleY }} className="w-[2px] bg-gradient-to-b from-orange-400 via-blue-500 to-violet-500 absolute left-1/2 -translate-x-1/2 h-full origin-top shadow-[0_0_15px_#fb923c]" />
+          <motion.div style={isDesktop ? { scaleY } : { scaleY: 1 }} className="w-[2px] bg-gradient-to-b from-orange-400 via-blue-500 to-violet-500 absolute left-1/2 -translate-x-1/2 h-full origin-top shadow-[0_0_15px_#fb923c]" />
 
           {/* 1. La Panizzeria (2024) - LEFT */}
           <div className="relative flex justify-between items-center w-full mb-32 md:flex-row flex-col gap-8">
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} whileHover={{ scale: 1.03, y: -10 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="w-full md:w-[45%]">
+            <motion.div {...cardAnimationProps('left')} className="w-full md:w-[45%]">
               <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-orange-500/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
                 <div className="space-y-6">
                   <div className="flex justify-between items-start">
@@ -177,7 +221,7 @@ export default function Timeline() {
 
           {/* 2. CONEIMERA 2025 (2025) - RIGHT */}
           <div className="relative flex justify-between items-center w-full mb-32 flex-col md:flex-row-reverse gap-8">
-            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} whileHover={{ scale: 1.03, y: -10 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="w-full md:w-[45%]">
+            <motion.div {...cardAnimationProps('right')} className="w-full md:w-[45%]">
               <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-emerald-400/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
                 <div className="text-right md:text-left space-y-6">
                   <div className="flex justify-between items-start md:flex-row-reverse">
@@ -207,7 +251,7 @@ export default function Timeline() {
 
           {/* 3. Multi-Tenant BI & CRM (2026) - LEFT */}
           <div className="relative flex justify-between items-center w-full mb-32 md:flex-row flex-col gap-8">
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} whileHover={{ scale: 1.03, y: -10 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="w-full md:w-[45%]">
+            <motion.div {...cardAnimationProps('left')} className="w-full md:w-[45%]">
               <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-blue-500/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
                 <div className="space-y-6">
                   <div className="flex justify-between items-start">
@@ -234,7 +278,7 @@ export default function Timeline() {
 
           {/* 4. Falcon Towers System (2026) - RIGHT */}
           <div className="relative flex justify-between items-center w-full mb-32 flex-col md:flex-row-reverse gap-8">
-            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} whileHover={{ scale: 1.03, y: -10 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="w-full md:w-[45%]">
+            <motion.div {...cardAnimationProps('right')} className="w-full md:w-[45%]">
               <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-violet-500/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
                 <div className="text-right md:text-left space-y-6">
                   <div className="flex justify-between items-start md:flex-row-reverse">
@@ -261,7 +305,7 @@ export default function Timeline() {
 
           {/* 5. JKO Asfaltos (2026) - LEFT */}
           <div className="relative flex justify-between items-center w-full mb-32 md:flex-row flex-col gap-8">
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} whileHover={{ scale: 1.03, y: -10 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="w-full md:w-[45%]">
+            <motion.div {...cardAnimationProps('left')} className="w-full md:w-[45%]">
               <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-cyan-400/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
                 <div className="space-y-6">
                   <div className="flex justify-between items-start">
@@ -291,7 +335,7 @@ export default function Timeline() {
 
           {/* 6. Sistemas de caja Top Beauty (2026) - RIGHT */}
           <div className="relative flex justify-between items-center w-full mb-32 flex-col md:flex-row-reverse gap-8">
-            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} whileHover={{ scale: 1.03, y: -10 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="w-full md:w-[45%]">
+            <motion.div {...cardAnimationProps('right')} className="w-full md:w-[45%]">
               <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-blue-400/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
                 <div className="text-right md:text-left space-y-6">
                   <div className="flex justify-between items-start md:flex-row-reverse">
@@ -354,7 +398,7 @@ export default function Timeline() {
 
           {/* 7. Chatbot Automatizado Meta (2026) - LEFT */}
           <div className="relative flex justify-between items-center w-full mb-32 md:flex-row flex-col gap-8">
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} whileHover={{ scale: 1.03, y: -10 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="w-full md:w-[45%]">
+            <motion.div {...cardAnimationProps('left')} className="w-full md:w-[45%]">
               <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-green-500/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
                 <div className="space-y-6">
                   <div className="flex justify-between items-start">
