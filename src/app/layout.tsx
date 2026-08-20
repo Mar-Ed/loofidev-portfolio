@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 import SmoothScroll from "@/components/SmoothScroll";
@@ -9,6 +9,14 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: 'swap',
+  preload: true,
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({ 
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta-sans",
+  display: 'swap',
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -61,9 +69,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "tu_codigo_de_verificacion_aqui", // Opcional: Para facilitar la validación en GSC
-  },
 };
 
 const jsonLd = {
@@ -96,14 +101,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={inter.variable}>
+    <html lang="es" className={`${inter.variable} ${plusJakartaSans.variable}`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <SmokeEffect />
         <SmoothScroll />
         {children}

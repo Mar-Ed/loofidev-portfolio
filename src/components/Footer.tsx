@@ -99,13 +99,13 @@ export default function Footer() {
 
         {/* Services Column */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6 lg:pl-8">
-          <h4 className="text-xs font-extrabold uppercase tracking-[0.25em] text-blue-400">Especialidades</h4>
+          <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">Especialidades</h4>
           <nav className="flex flex-col items-center md:items-start gap-4">
             {SERVICES_NAV.map((item) => (
               <a 
                 key={item.label} 
                 href={item.href} 
-                className="text-sm font-medium text-gray-400 hover:text-white transition-colors w-fit"
+                className="text-sm font-medium text-gray-500 hover:text-cyan-400 transition-colors w-fit"
               >
                 {item.label}
               </a>
@@ -115,13 +115,13 @@ export default function Footer() {
 
         {/* Navigation Column */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6">
-          <h4 className="text-xs font-extrabold uppercase tracking-[0.25em] text-cyan-400">Plataforma</h4>
+          <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">Plataforma</h4>
           <nav className="flex flex-col items-center md:items-start gap-4">
             {FOOTER_NAV.map((item) => (
               <a 
                 key={item.label} 
                 href={item.href} 
-                className="text-sm font-medium text-gray-400 hover:text-white transition-colors w-fit"
+                className="text-sm font-medium text-gray-500 hover:text-cyan-400 transition-colors w-fit"
               >
                 {item.label}
               </a>
@@ -131,15 +131,15 @@ export default function Footer() {
 
         {/* Contact Column */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6">
-          <h4 className="text-xs font-extrabold uppercase tracking-[0.25em] text-emerald-400">Contacto Directo</h4>
+          <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">Contacto Directo</h4>
           <div className="space-y-4">
             <a href="mailto:loofidevtech@gmail.com" className="group block">
-              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Email Profesional</span>
-              <span className="text-sm font-semibold text-gray-200 group-hover:text-cyan-400 transition-colors">loofidevtech@gmail.com</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest block mb-1">Email Profesional</span>
+              <span className="text-sm font-medium text-gray-300 group-hover:text-cyan-400 transition-colors">loofidevtech@gmail.com</span>
             </a>
             <a href="https://wa.me/51970338010" className="group block">
-              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Central de Atención</span>
-              <span className="text-sm font-semibold text-gray-200 group-hover:text-green-400 transition-colors">+51 970 338 010</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest block mb-1">Central de Atención</span>
+              <span className="text-sm font-medium text-gray-300 group-hover:text-cyan-400 transition-colors">+51 970 338 010</span>
             </a>
           </div>
         </div>

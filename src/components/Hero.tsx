@@ -1,260 +1,138 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import React, { useEffect, useRef } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollToPlugin)
-}
+if (typeof window !== 'undefined') gsap.registerPlugin(ScrollToPlugin)
 
-class Particle {
-  x: number
-  y: number
-  size: number
-  speedX: number
-  speedY: number
-  opacity: number
+const VALUE_WORDS = ['convierte', 'destaca', 'crece', 'escala']
 
-  constructor(canvasWidth: number, canvasHeight: number) {
-    this.x = Math.random() * canvasWidth
-    this.y = Math.random() * canvasHeight
-    this.size = Math.random() * 1.5
-    this.speedX = (Math.random() - 0.5) * 0.5
-    this.speedY = (Math.random() - 0.5) * 0.5
-    this.opacity = Math.random() * 0.5
-  }
+type TypeCycleOptions = { typingSpeed?: number; deletingSpeed?: number; holdFor?: number }
 
-  update(canvasWidth: number, canvasHeight: number) {
-    this.x += this.speedX
-    this.y += this.speedY
-    if (this.x > canvasWidth) this.x = 0
-    if (this.x < 0) this.x = canvasWidth
-    if (this.y > canvasHeight) this.y = 0
-    if (this.y < 0) this.y = canvasHeight
-  }
-
-  draw(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = `rgba(0, 242, 255, ${this.opacity})`
-    ctx.beginPath()
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-    ctx.fill()
-  }
-}
-
-export default function Hero() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [showVideo, setShowVideo] = React.useState(false)
-  const [isDesktop, setIsDesktop] = React.useState(false)
-
+function useTypeCycle(items: string[], options: TypeCycleOptions = {}) {
+  const { typingSpeed = 145, deletingSpeed = 70, holdFor = 2800 } = options
+  const [text, setText] = useState('')
+  const index = useRef(0)
+  const phase = useRef<'typing' | 'holding' | 'deleting'>('typing')
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    setIsDesktop(!isMobile);
-    setShowVideo(!isMobile);
-
-    if (isMobile) {
-      return; // Early return to avoid starting particle calculations & rendering on mobile viewports
-    }
-
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    const particles: Particle[] = []
-    
-    const resize = () => {
-      if (canvas) {
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
+    let timer: ReturnType<typeof setTimeout>
+    const tick = () => {
+      const current = items[index.current]
+      if (phase.current === 'typing') {
+        setText((previous) => {
+          const next = current.slice(0, previous.length + 1)
+          if (next === current) phase.current = 'holding'
+          return next
+        })
+        timer = setTimeout(tick, (phase.current as string) === 'holding' ? holdFor : typingSpeed)
+        return
       }
-    }
-    window.addEventListener('resize', resize)
-    resize()
-
-    const particleCount = 120;
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle(canvas.width, canvas.height))
-    }
-
-    let animationId: number
-    const animate = () => {
-      if (!canvas) return
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      particles.forEach(p => {
-        p.update(canvas.width, canvas.height)
-        p.draw(ctx)
+      if (phase.current === 'holding') {
+        phase.current = 'deleting'
+        timer = setTimeout(tick, deletingSpeed)
+        return
+      }
+      setText((previous) => {
+        const next = previous.slice(0, -1)
+        if (!next) {
+          index.current = (index.current + 1) % items.length
+          phase.current = 'typing'
+        }
+        return next
       })
-      animationId = requestAnimationFrame(animate)
+      timer = setTimeout(tick, deletingSpeed)
     }
-    animate()
+    timer = setTimeout(tick, 500)
+    return () => clearTimeout(timer)
+  }, [deletingSpeed, holdFor, items, typingSpeed])
 
-    return () => {
-      window.removeEventListener('resize', resize)
-      cancelAnimationFrame(animationId)
-    }
+  return text
+}
+
+function Typewriter({ words }: { words: string[] }) {
+  const prefersReducedMotion = useReducedMotion()
+  const text = useTypeCycle(words)
+  return (
+    <span className="inline-block min-w-[9.1ch] whitespace-nowrap">
+      <span className="hero-word-gradient">{prefersReducedMotion ? words[0] : text}{!prefersReducedMotion && <span className="hero-cursor" aria-hidden />}</span>
+      <span className="text-white">.</span>
+    </span>
+  )
+}
+
+const featureItems = [
+  { icon: '↯', title: 'Rápido', description: 'Sitios que cargan volando', tone: 'text-lime-300' },
+  { icon: '◇', title: 'Seguro', description: 'Código limpio y protegido', tone: 'text-cyan-300' },
+  { icon: '↗', title: 'Estrategia', description: 'Pensado para convertir', tone: 'text-blue-300' },
+]
+
+export default function Hero() {
+  const prefersReducedMotion = useReducedMotion()
+  const scrollTo = useCallback((target: string) => {
+    gsap.to(window, { duration: 1.25, scrollTo: { y: target, offsetY: 72 }, ease: 'power3.inOut' })
   }, [])
+  const reveal = prefersReducedMotion ? { initial: false as const } : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 } }
 
   return (
-    <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0b] pt-20 px-4 md:px-8">
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* Render video only on large screens to save mobile data/CPU */}
-        {showVideo && (
-          <div className="absolute inset-0">
-            <video 
-              autoPlay 
-              loop 
-              muted 
-              playsInline 
-              className="absolute inset-0 w-full h-full object-cover opacity-80"
-            >
-              <source src="/videos/hero-background.mp4" type="video/mp4" />
-            </video>
+    <section id="inicio" className="relative isolate flex min-h-screen items-center overflow-hidden bg-[#030a14] px-6 pb-10 pt-28 sm:px-10 lg:px-12 lg:pb-12 lg:pt-32">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_48%,rgba(0,104,176,0.2),transparent_28%),radial-gradient(circle_at_10%_70%,rgba(12,70,112,0.15),transparent_32%),linear-gradient(115deg,#030a14_0%,#051020_54%,#020810_100%)]" />
+      <div className="hero-grid pointer-events-none absolute inset-0 opacity-[0.2]" aria-hidden />
+      <div className="pointer-events-none absolute -right-48 top-20 h-[680px] w-[680px] rounded-full border border-cyan-300/[0.035]" aria-hidden />
+
+      <div className="relative z-10 mx-auto grid w-full max-w-[1600px] items-center gap-12 lg:grid-cols-2 lg:gap-8 xl:gap-12">
+        <motion.div {...reveal} transition={{ duration: 0.75, ease: 'easeOut' }} className="relative z-20 w-full max-w-[680px]">
+          <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-cyan-300/20 bg-cyan-400/[0.055] px-4 py-2.5 text-[10px] font-bold tracking-[0.18em] text-cyan-200/90 shadow-[0_0_24px_rgba(0,193,255,0.06)]">
+            <span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-70" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan-300" /></span>
+            ESTUDIO DIGITAL · LIMA, PERÚ
           </div>
-        )}
-        {/* Background base for all screens */}
-        {!showVideo && <div className="absolute inset-0 bg-[#0a0a0b]" />}
-        {/* Professional Overlay Mask - Reduced darkness */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b]/80 via-transparent to-[#0a0a0b]/80 z-1" />
-        <div className="absolute inset-0 bg-black/20 z-1" />
-      </div>
 
-      {/* Background Glowing Orbs - Increased intensity */}
-      <div className="absolute top-1/3 left-[20%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-400/20 blur-[150px] rounded-[100%] pointer-events-none z-2" />
-      <div className="absolute top-2/3 right-[10%] w-[500px] h-[500px] bg-blue-500/20 blur-[150px] rounded-[100%] pointer-events-none z-2" />
+          <h1 className="max-w-[720px] text-[clamp(2.75rem,5.2vw,5.75rem)] font-bold leading-[0.96] tracking-[-0.06em] text-white">
+            Diseñamos lo<br className="hidden sm:block" /> digital para que<br className="hidden sm:block" /> tu negocio <Typewriter words={VALUE_WORDS} />
+          </h1>
 
-      {/* Particle Canvas - Increased opacity */}
-      <canvas ref={canvasRef} className="absolute inset-0 z-2 pointer-events-none opacity-60 hidden md:block" id="heroCanvas" />
-      
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-20">
-        <div className="flex-1 text-center lg:text-left mt-10 lg:mt-0">
-          <motion.div 
-            initial={isDesktop ? { opacity: 0, x: -30 } : { opacity: 1, x: 0 }}
-            animate={isDesktop ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
-            transition={isDesktop ? { duration: 0.8 } : undefined}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-mono font-bold tracking-widest uppercase mb-8 backdrop-blur-md"
-          >
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            Ingeniería de Software Premium
-          </motion.div>
-          
-          <motion.h1 
-            initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
-            animate={isDesktop ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-            transition={isDesktop ? { duration: 0.8, delay: 0.2 } : undefined}
-            className="text-6xl md:text-8xl lg:text-[110px] font-bold tracking-[-0.04em] mb-6 leading-[0.9]"
-          >
-            <span className="sr-only">Loofi Dev - Agencia de Desarrollo Web y Software</span>
-            LOOFI<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">DEV</span>
-          </motion.h1>
-          
-          <motion.p 
-            initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
-            animate={isDesktop ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-            transition={isDesktop ? { duration: 0.8, delay: 0.4 } : undefined}
-            className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl font-medium leading-relaxed lg:border-l-2 lg:border-cyan-500/30 lg:pl-6 mx-auto lg:mx-0"
-          >
-            <strong className="text-white font-bold">Desarrollador Web</strong> y experto en <strong className="text-white font-bold">Páginas Web</strong> de Alto Impacto en <strong className="text-white font-bold">Lima y todo el Perú</strong>. Creación de sitios web y software a medida.
-          </motion.p>
-          
-          <motion.div 
-            initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
-            animate={isDesktop ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-            transition={isDesktop ? { duration: 0.8, delay: 0.6 } : undefined}
-            className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start"
-          >
-            <button 
-              onClick={() => {
-                gsap.to(window, {
-                  duration: 1.5,
-                  scrollTo: "#contacto",
-                  ease: "power4.inOut"
-                });
-              }}
-              className="relative overflow-hidden group btn-primary px-10 py-5 rounded-2xl font-bold text-black uppercase tracking-widest text-sm shadow-[0_0_40px_rgba(0,242,255,0.4)] hover:shadow-[0_0_60px_rgba(0,242,255,0.6)] transition-all cursor-pointer"
-            >
-              <span className="relative z-10">Iniciar Transformación</span>
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </button>
-            <button 
-              onClick={() => {
-                gsap.to(window, {
-                  duration: 1.5,
-                  scrollTo: "#proyectos",
-                  ease: "power4.inOut"
-                });
-              }}
-              className="px-10 py-5 rounded-2xl border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-900/10 transition-all font-bold uppercase tracking-widest text-sm backdrop-blur-md cursor-pointer"
-            >
-              Explorar Soluciones
-            </button>
-          </motion.div>
-        </div>
+          <p className="mt-8 max-w-[600px] text-base leading-7 text-slate-400 sm:text-lg sm:leading-8">Páginas web, e-commerce y sistemas a medida con una estrategia clara: verse bien, cargar rápido y generar resultados.</p>
 
-        {/* Floating Architect Element */}
-        <motion.div 
-          initial={isDesktop ? { opacity: 0, scale: 0.9 } : { opacity: 1, scale: 1 }}
-          animate={isDesktop ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
-          transition={isDesktop ? { duration: 1, delay: 0.5 } : undefined}
-          className="flex-1 w-full flex justify-center lg:justify-end relative"
+          <div className="mt-9 flex flex-wrap items-center gap-3.5">
+            <button onClick={() => scrollTo('#contacto')} className="group inline-flex items-center gap-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-400 px-6 py-4 text-[11px] font-bold tracking-[0.13em] text-white shadow-[0_14px_38px_rgba(0,152,255,0.24)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_48px_rgba(0,193,255,0.34)]">HABLEMOS DE TU PROYECTO<span className="text-xl leading-none transition-transform duration-300 group-hover:translate-x-1">→</span></button>
+            <button onClick={() => scrollTo('#proyectos')} className="rounded-xl border border-white/15 bg-white/[0.02] px-6 py-4 text-[11px] font-bold tracking-[0.13em] text-slate-200 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-200/40 hover:bg-white/[0.06]">VER PROYECTOS</button>
+          </div>
+
+          <div className="mt-12 flex flex-wrap items-stretch gap-0 border-t border-white/[0.1] pt-6 sm:mt-14">
+            {featureItems.map((item, index) => (
+              <div key={item.title} className={`flex items-center gap-3 pr-5 sm:pr-8 ${index > 0 ? 'border-l border-white/[0.1] pl-5 sm:pl-8' : ''}`}>
+                <span className={`text-2xl leading-none ${item.tone}`}>{item.icon}</span>
+                <div><p className="text-sm font-semibold text-slate-200">{item.title}</p><p className="mt-0.5 whitespace-nowrap text-[10px] text-slate-500">{item.description}</p></div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.94, x: 20 }}
+          animate={prefersReducedMotion ? undefined : { opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.15, ease: 'easeOut' }}
+          className="relative flex min-h-[380px] sm:min-h-[480px] lg:min-h-[580px] xl:min-h-[640px] w-full items-center justify-center"
         >
-          <motion.div 
-            animate={isDesktop ? { y: [-15, 15, -15] } : undefined} 
-            transition={isDesktop ? { repeat: Infinity, duration: 6, ease: "easeInOut" } : undefined}
-            className="relative w-full max-w-[460px] lg:mr-[-2rem]"
-          >
-            {/* Super Glow background */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 blur-[80px] z-0" />
-            
-            <div className="relative z-10 bg-[#0a0a0b]/40 backdrop-blur-3xl border border-white/10 p-6 md:p-8 rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.8)]">
-              {/* Window Controls */}
-              <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/5">
-                <div className="flex gap-2">
-                  <div className="w-3.5 h-3.5 rounded-full bg-red-500/80 shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
-                  <div className="w-3.5 h-3.5 rounded-full bg-yellow-500/80 shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-                  <div className="w-3.5 h-3.5 rounded-full bg-green-500/80 shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
-                </div>
-                <div className="font-mono text-xs font-bold text-gray-500 bg-white/5 px-4 py-1.5 rounded-full border border-white/10">
-                  runtime.config.ts
-                </div>
-              </div>
-              
-              <div className="font-mono text-sm text-cyan-400 mb-2">import <span className="text-white">{`{ Core, Data }`}</span> from <span className="text-blue-400">&apos;@loofidev/system&apos;</span>;</div>
-              <div className="font-mono text-sm text-gray-500 mb-8">{"// Inicializando arquitectura empresarial"}</div>
-              
-              {/* Fake IDE Output */}
-              <div className="space-y-4 font-mono text-sm">
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
-                  <span className="text-gray-300 font-semibold">Infraestructura DB</span>
-                  <span className="text-emerald-400 bg-emerald-400/10 px-3 py-1.5 rounded-lg border border-emerald-400/20 shadow-[0_0_15px_rgba(52,211,153,0.15)]">ESTABLE</span>
-                </div>
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
-                  <span className="text-gray-300 font-semibold">Latencia Global</span>
-                  <span className="text-blue-400 bg-blue-400/10 px-3 py-1.5 rounded-lg border border-blue-400/20 shadow-[0_0_15px_rgba(96,165,250,0.15)]">{"< 20ms"}</span>
-                </div>
-                <div className="flex items-center justify-between p-4 rounded-2xl border border-cyan-500/40 bg-cyan-500/10 scale-[1.02] transform transition-all shadow-[0_0_30px_rgba(0,242,255,0.15)]">
-                  <span className="text-cyan-100 font-bold">Arquitectura LOOFIDEV</span>
-                  <span className="text-cyan-400 font-bold flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(0,242,255,1)]" />
-                    DESPLEGADA
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Floating Image element */}
-            <motion.div 
-              animate={isDesktop ? { y: [10, -10, 10], rotate: [0, 5, 0] } : undefined}
-              transition={isDesktop ? { repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 } : undefined}
-              className="absolute -bottom-8 -right-4 md:-bottom-12 md:-right-12 w-32 h-32 md:w-40 md:h-40 bg-[#0a0a0b]/40 border border-white/20 rounded-[2rem] p-3 shadow-[0_30px_60px_rgba(0,0,0,0.8)] z-20 backdrop-blur-md"
-            >
-              <Image src="/logo_oficial.jpeg" alt="Logotipo de Loofi Dev - Agencia de Desarrollo Web y Software Premium" width={160} height={160} className="w-full h-full object-contain rounded-2xl shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]" />
-            </motion.div>
-          </motion.div>
+          {/* Ambient Glow */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/15 blur-[100px] sm:h-[450px] sm:w-[450px]" aria-hidden />
+          
+          {/* Outer Orbit Line */}
+          <div className="hero-orbit pointer-events-none absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/[0.08] sm:h-[480px] sm:w-[480px]" aria-hidden />
+
+          {/* Planet / Orbit Illustration */}
+          <Image
+            src="/seccion/hero-orbit.png"
+            alt="Arquitectura digital orbital de Loofi Dev"
+            width={1536}
+            height={1024}
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 720px"
+            className="hero-art pointer-events-none absolute left-1/2 top-1/2 z-10 w-[95%] max-w-[560px] sm:max-w-[640px] lg:max-w-[700px] xl:max-w-[760px] -translate-x-1/2 -translate-y-1/2 object-contain select-none"
+          />
         </motion.div>
       </div>
     </section>

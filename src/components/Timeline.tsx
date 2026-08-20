@@ -191,7 +191,7 @@ export default function Timeline() {
           {/* 1. La Panizzeria (2024) - LEFT */}
           <div className="relative flex justify-between items-center w-full mb-32 md:flex-row flex-col gap-8">
             <motion.div {...cardAnimationProps('left')} className="w-full md:w-[45%]">
-              <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-orange-500/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+              <div className="card-premium p-6 md:p-8 rounded-[2.5rem] hover:border-orange-500/50 group">
                 <div className="space-y-6">
                   <div className="flex justify-between items-start">
                     <div>
@@ -222,7 +222,7 @@ export default function Timeline() {
           {/* 2. CONEIMERA 2025 (2025) - RIGHT */}
           <div className="relative flex justify-between items-center w-full mb-32 flex-col md:flex-row-reverse gap-8">
             <motion.div {...cardAnimationProps('right')} className="w-full md:w-[45%]">
-              <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-emerald-400/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+              <div className="card-premium p-6 md:p-8 rounded-[2.5rem] hover:border-emerald-400/50 group">
                 <div className="text-right md:text-left space-y-6">
                   <div className="flex justify-between items-start md:flex-row-reverse">
                     <div>
@@ -252,7 +252,7 @@ export default function Timeline() {
           {/* 3. Multi-Tenant BI & CRM (2026) - LEFT */}
           <div className="relative flex justify-between items-center w-full mb-32 md:flex-row flex-col gap-8">
             <motion.div {...cardAnimationProps('left')} className="w-full md:w-[45%]">
-              <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-blue-500/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+              <div className="card-premium p-6 md:p-8 rounded-[2.5rem] hover:border-blue-500/50 group">
                 <div className="space-y-6">
                   <div className="flex justify-between items-start">
                     <div>
@@ -279,7 +279,7 @@ export default function Timeline() {
           {/* 4. Falcon Towers System (2026) - RIGHT */}
           <div className="relative flex justify-between items-center w-full mb-32 flex-col md:flex-row-reverse gap-8">
             <motion.div {...cardAnimationProps('right')} className="w-full md:w-[45%]">
-              <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-violet-500/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+              <div className="card-premium p-6 md:p-8 rounded-[2.5rem] hover:border-violet-500/50 group">
                 <div className="text-right md:text-left space-y-6">
                   <div className="flex justify-between items-start md:flex-row-reverse">
                     <div>
@@ -306,7 +306,7 @@ export default function Timeline() {
           {/* 5. JKO Asfaltos (2026) - LEFT */}
           <div className="relative flex justify-between items-center w-full mb-32 md:flex-row flex-col gap-8">
             <motion.div {...cardAnimationProps('left')} className="w-full md:w-[45%]">
-              <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-cyan-400/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+              <div className="card-premium p-6 md:p-8 rounded-[2.5rem] hover:border-cyan-400/50 group">
                 <div className="space-y-6">
                   <div className="flex justify-between items-start">
                     <div>
@@ -336,7 +336,7 @@ export default function Timeline() {
           {/* 6. Sistemas de caja Top Beauty (2026) - RIGHT */}
           <div className="relative flex justify-between items-center w-full mb-32 flex-col md:flex-row-reverse gap-8">
             <motion.div {...cardAnimationProps('right')} className="w-full md:w-[45%]">
-              <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-blue-400/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+              <div className="card-premium p-6 md:p-8 rounded-[2.5rem] hover:border-blue-400/50 group">
                 <div className="text-right md:text-left space-y-6">
                   <div className="flex justify-between items-start md:flex-row-reverse">
                     <div>
@@ -399,7 +399,7 @@ export default function Timeline() {
           {/* 7. Chatbot Automatizado Meta (2026) - LEFT */}
           <div className="relative flex justify-between items-center w-full mb-32 md:flex-row flex-col gap-8">
             <motion.div {...cardAnimationProps('left')} className="w-full md:w-[45%]">
-              <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:border-green-500/50 transition-all group shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+              <div className="card-premium p-6 md:p-8 rounded-[2.5rem] hover:border-green-500/50 group">
                 <div className="space-y-6">
                   <div className="flex justify-between items-start">
                     <div>

@@ -7,19 +7,19 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export default function SmoothScroll() {
   useEffect(() => {
-    // Disable virtual smooth scroll on mobile viewports for optimal native scrolling performance
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      return;
-    }
+    // Only enable on desktop — native scroll is fastest on touch/mobile
+    if (typeof window === 'undefined' || window.innerWidth < 1024) return;
+
+    gsap.registerPlugin(ScrollTrigger)
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.0,         // Slightly faster than 1.2 = less input lag
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      wheelMultiplier: 0.9,  // Slightly less multiplier = feels tighter
+      touchMultiplier: 1.5,
       infinite: false,
     })
 
@@ -34,6 +34,7 @@ export default function SmoothScroll() {
     return () => {
       lenis.destroy()
       gsap.ticker.remove(lenis.raf)
+      ScrollTrigger.getAll().forEach(t => t.kill())
     }
   }, [])
 

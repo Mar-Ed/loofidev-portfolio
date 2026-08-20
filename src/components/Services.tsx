@@ -1,122 +1,192 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollToPlugin)
+}
+
+const secondaryServices = [
+  {
+    num: '02',
+    title: 'Desarrollo Web Full-Stack & E-Commerce',
+    summary: 'Plataformas interactivas y tiendas online de alto rendimiento construidas con React, Next.js, Node.js y Spring Boot.',
+    focus: 'React · Next.js · Node.js · APIs'
+  },
+  {
+    num: '03',
+    title: 'Landing Pages de Alto Rendimiento',
+    summary: 'Interfaces ultra rápidas con velocidad de carga menor a 0.8s y optimización SEO orientadas estrictamente a captar y convertir.',
+    focus: 'Conversión · SEO Técnico · < 0.8s'
+  },
+  {
+    num: '04',
+    title: 'Infraestructura Cloud & Bases de Datos',
+    summary: 'Arquitecturas relacionales robustas, microservicios seguros y despliegues en la nube con alta disponibilidad y protección de datos.',
+    focus: 'AWS · PostgreSQL · Microservicios'
+  }
+]
 
 export default function Services() {
-  const [isDesktop, setIsDesktop] = React.useState(true)
+  const prefersReducedMotion = useReducedMotion()
 
-  React.useEffect(() => {
-    const checkDesktop = () => {
-      setIsDesktop(window.innerWidth >= 768)
-    }
-    checkDesktop()
-    window.addEventListener('resize', checkDesktop)
-    return () => window.removeEventListener('resize', checkDesktop)
-  }, [])
+  const scrollToContact = () => {
+    gsap.to(window, { duration: 1.2, scrollTo: { y: '#contacto', offsetY: 72 }, ease: 'power3.inOut' })
+  }
+
+  const anim = prefersReducedMotion
+    ? { initial: false as const }
+    : {
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: '-60px' },
+        transition: { duration: 0.7, ease: 'easeOut' as const },
+      }
 
   return (
-    <section id="servicios" className="py-24 px-4 md:px-8 bg-black">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="max-w-xl">
-            <h2 className="text-3xl font-bold mb-4">Arquitectura Digital de Vanguardia</h2>
-            <p className="text-gray-400">Combinamos análisis de datos profundo con un diseño impecable para crear herramientas que escalen su negocio.</p>
-          </div>
-          <div className="text-cyan-400 font-mono text-sm tracking-widest">[ CAPACIDADES_V.2.5 ]</div>
-        </div>
+    <section id="servicios" className="relative isolate flex min-h-screen items-center bg-[#07090e] px-6 py-16 sm:px-10 sm:py-20 lg:px-12 lg:py-24 border-t border-white/[0.08]">
+      {/* Very subtle ambient background gradient */}
+      <div className="pointer-events-none absolute right-1/4 top-1/4 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-cyan-950/15 blur-[160px]" aria-hidden />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* ERP Systems */}
-          <motion.div 
-            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
-            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-            viewport={{ once: true }}
-            className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-cyan-400/30 transition-all group lg:col-span-1"
-          >
-            <div className="mb-6 h-16 w-16 flex items-center justify-center rounded-2xl bg-cyan-500/10 border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-all">
-              <svg className="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
+      <div className="relative z-10 mx-auto w-full max-w-[1540px]">
+        {/* Main Asymmetric Editorial Grid */}
+        <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-14 xl:gap-20">
+          
+          {/* Left Column: Editorial Lead & Proposition (5 cols) */}
+          <motion.div {...anim} className="flex flex-col justify-between h-full lg:col-span-5">
+            <div>
+              {/* Category Marker */}
+              <div className="mb-6 flex items-center gap-3">
+                <span className="h-px w-6 bg-cyan-400" />
+                <span className="font-mono text-xs font-semibold tracking-[0.22em] uppercase text-zinc-400">
+                  Capacidades & Soluciones
+                </span>
+              </div>
+
+              {/* Editorial Title */}
+              <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-[46px] xl:text-[54px] leading-[1.02]">
+                Arquitectura digital<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-200 to-blue-400 font-light">
+                  de vanguardia.
+                </span>
+              </h2>
+
+              {/* Manifesto Text */}
+              <p className="mt-6 text-base leading-relaxed text-zinc-300 sm:text-lg sm:leading-8 max-w-lg">
+                No ensamblamos plantillas genéricas. Desarrollamos software y plataformas a medida diseñadas para resolver cuellos de botella operativos, escalar con tu negocio y maximizar tus ingresos.
+              </p>
+
+              {/* Operational Values */}
+              <div className="mt-8 space-y-3.5 border-t border-white/10 pt-6">
+                <div className="flex items-start gap-3">
+                  <span className="font-mono text-xs text-cyan-400 mt-0.5">01</span>
+                  <p className="text-sm text-zinc-400"><strong className="text-zinc-200 font-medium">Código propietario:</strong> Control total de tu tecnología sin depender de plataformas de terceros.</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="font-mono text-xs text-cyan-400 mt-0.5">02</span>
+                  <p className="text-sm text-zinc-400"><strong className="text-zinc-200 font-medium">Rendimiento garantizado:</strong> Sitios y sistemas rápidos, seguros y mantenibles a largo plazo.</p>
+                </div>
+              </div>
             </div>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">Sistemas ERP</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">Centralizamos y automatizamos la logística, finanzas y operaciones de tu empresa con plataformas hechas a tu medida.</p>
+
+            {/* Direct Consultation Link */}
+            <div className="mt-10 pt-6 border-t border-white/10 flex items-center gap-4">
+              <button
+                onClick={scrollToContact}
+                className="group inline-flex items-center gap-3 rounded-xl bg-white px-6 py-3.5 text-xs font-bold tracking-[0.14em] uppercase text-black transition-all duration-300 hover:bg-cyan-300 hover:shadow-[0_0_30px_rgba(0,242,255,0.25)]"
+              >
+                <span>Consultar viabilidad de proyecto</span>
+                <span className="text-base leading-none transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </button>
+            </div>
           </motion.div>
 
-          {/* CRM Systems */}
-          <motion.div 
-            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
-            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-            viewport={{ once: true }}
-            transition={isDesktop ? { delay: 0.1 } : undefined}
-            className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-blue-400/30 transition-all group"
+          {/* Right Column: Hierarchical Capability Architecture (7 cols) */}
+          <motion.div
+            {...anim}
+            transition={{ duration: 0.75, delay: 0.15, ease: 'easeOut' as const }}
+            className="flex flex-col lg:col-span-7"
           >
-            <div className="mb-6 h-16 w-16 flex items-center justify-center rounded-2xl bg-blue-500/10 border border-blue-500/20 group-hover:bg-blue-500/20 transition-all">
-              <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
+            {/* Flagship Hero Service: Sistemas ERP & CRM */}
+            <div className="relative border border-white/[0.12] bg-white/[0.02] rounded-2xl p-6 sm:p-8 backdrop-blur-sm transition-all duration-300 hover:border-cyan-400/30">
+              <div className="flex items-center justify-between gap-4 mb-4">
+                <span className="font-mono text-xs font-bold text-cyan-400 tracking-wider">
+                  01 / CAPACIDAD PRINCIPAL
+                </span>
+                <span className="text-[11px] font-mono tracking-wider uppercase text-zinc-400 bg-white/5 px-2.5 py-1 rounded border border-white/10">
+                  Arquitectura Empresarial
+                </span>
+              </div>
+
+              <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                Sistemas de Gestión & Operaciones (ERP / CRM)
+              </h3>
+
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-zinc-300">
+                Centralizamos la operativa de tu empresa en una única plataforma a medida: control de inventarios, finanzas, facturación, logística y pipelines comerciales para automatizar procesos manuales y eliminar errores.
+              </p>
+
+              {/* Core Features Specs */}
+              <div className="mt-6 grid sm:grid-cols-2 gap-3 pt-5 border-t border-white/10 text-xs text-zinc-400">
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                  <span>Automatización de logística y almacén</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                  <span>Gestión de leads y fidelización CRM</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                  <span>Paneles de control y reportes en tiempo real</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                  <span>Integraciones API y facturación electrónica</span>
+                </div>
+              </div>
             </div>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">Sistemas CRM</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">Desarrollamos herramientas que te permitirán gestionar tus leads, fidelizar clientes y optimizar tu embudo de ventas.</p>
+
+            {/* Secondary Capabilities List with Hairline Dividers */}
+            <div className="mt-4 space-y-0">
+              {secondaryServices.map((service) => (
+                <div
+                  key={service.num}
+                  className="group relative border-b border-white/10 py-5 px-3 transition-colors duration-200 hover:bg-white/[0.015]"
+                >
+                  <div className="grid sm:grid-cols-12 gap-2 sm:gap-6 items-baseline">
+                    {/* Index & Title (5 cols) */}
+                    <div className="sm:col-span-5 flex items-baseline gap-3">
+                      <span className="font-mono text-xs font-semibold text-zinc-500 group-hover:text-cyan-400 transition-colors">
+                        {service.num}
+                      </span>
+                      <h4 className="text-base sm:text-lg font-bold text-zinc-100 group-hover:text-white transition-colors">
+                        {service.title}
+                      </h4>
+                    </div>
+
+                    {/* Summary & Focus (7 cols) */}
+                    <div className="sm:col-span-7">
+                      <p className="text-xs sm:text-sm leading-relaxed text-zinc-400 group-hover:text-zinc-300 transition-colors">
+                        {service.summary}
+                      </p>
+                      <div className="mt-1.5 font-mono text-[11px] text-zinc-500 tracking-wider">
+                        {service.focus}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
-          {/* Full-Stack Dev */}
-          <motion.div 
-            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
-            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-            viewport={{ once: true }}
-            transition={isDesktop ? { delay: 0.2 } : undefined}
-            className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-emerald-400/30 transition-all group"
-          >
-            <div className="mb-6 h-16 w-16 flex items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-all">
-              <svg className="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">Desarrollo Web Full-Stack</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">Desde plataformas e-commerce complejas hasta aplicaciones web interactivas (React, Node.js, Spring Boot, Astro).</p>
-          </motion.div>
-
-          {/* Landing Pages */}
-          <motion.div 
-            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
-            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-            viewport={{ once: true }}
-            transition={isDesktop ? { delay: 0.3 } : undefined}
-            className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-amber-400/30 transition-all group"
-          >
-            <div className="mb-6 h-16 w-16 flex items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/20 group-hover:bg-amber-500/20 transition-all">
-              <svg className="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-amber-400 transition-colors">Landing Pages</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">Diseños de alta conversión, rápidos y optimizados para SEO, creados específicamente para captar clientes potenciales.</p>
-          </motion.div>
-
-          {/* Cloud & DB */}
-          <motion.div 
-            initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-            animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
-            whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-            viewport={{ once: true }}
-            transition={isDesktop ? { delay: 0.4 } : undefined}
-            className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-purple-400/30 transition-all group"
-          >
-            <div className="mb-6 h-16 w-16 flex items-center justify-center rounded-2xl bg-purple-500/10 border border-purple-500/20 group-hover:bg-purple-500/20 transition-all">
-              <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-purple-400 transition-colors">Nube y Bases de Datos</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">Arquitecturas seguras y escalables que garantizan que tu información esté siempre disponible y protegida.</p>
-          </motion.div>
         </div>
       </div>
     </section>
   )
 }
+
+

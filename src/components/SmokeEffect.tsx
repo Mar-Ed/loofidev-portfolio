@@ -2,65 +2,19 @@
 
 import React, { useEffect, useRef } from 'react';
 
-class Spark {
-  x: number;
-  y: number;
-  size: number;
-  speedX: number;
-  speedY: number;
-  color: string;
-  life: number;
-  decay: number;
-  isMobile: boolean;
-
-  constructor(x: number, y: number, color: string, isMobile: boolean) {
-    this.x = x;
-    this.y = y;
-    this.isMobile = isMobile;
-    this.size = Math.random() * (isMobile ? 1.5 : 2) + 0.5;
-    this.speedX = (Math.random() - 0.5) * (isMobile ? 5 : 8);
-    this.speedY = (Math.random() - 0.5) * (isMobile ? 5 : 8);
-    this.color = color;
-    this.life = 1.0;
-    this.decay = Math.random() * (isMobile ? 0.05 : 0.03) + 0.015;
-  }
-
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    this.speedX *= 0.98;
-    this.speedY *= 0.98;
-    this.life -= this.decay;
-  }
-
-  draw(ctx: CanvasRenderingContext2D) {
-    ctx.save();
-    ctx.globalAlpha = Math.max(0, this.life);
-    ctx.fillStyle = this.color;
-    if (!this.isMobile) {
-      ctx.shadowBlur = 15;
-      ctx.shadowColor = this.color;
-    }
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-}
-
 const SmokeEffect: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    // Detect mobile screens to avoid performance penalties on touch devices
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      return;
-    }
+    // Disable on ALL devices below high-end threshold and touch devices
+    if (typeof window === 'undefined') return;
+    if (window.innerWidth < 1024) return;
+    // Detect low-end devices via hardwareConcurrency
+    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     interface TrailPoint {
@@ -71,16 +25,13 @@ const SmokeEffect: React.FC = () => {
     }
 
     const trail: TrailPoint[] = [];
-    const sparks: Spark[] = [];
     let colorIndex = 0;
-    let targetColor: string | null = null;
-    const isMobile = false; // Always false since we early return on mobile viewports
-    
-    const PALETTE = [
-      '#00f2ff', // neon-blue
-      '#00ffcc', // neon-cyan
-      '#ffb800', // gold-accent
-    ];
+    let animationId: number;
+    let isMoving = false;
+    let moveTimeout: ReturnType<typeof setTimeout>;
+
+    const PALETTE = ['#00f2ff', '#00ffcc', '#ffb800'];
+    const MAX_TRAIL = 18; // Reduced from unlimited
 
     function resize() {
       if (canvas) {
@@ -88,104 +39,53 @@ const SmokeEffect: React.FC = () => {
         canvas.height = window.innerHeight;
       }
     }
-
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
     resize();
 
-    const handleInput = (clientX: number, clientY: number) => {
-      // Logic for color adaptation
-      let baseColor;
-      if (targetColor) {
-        baseColor = targetColor;
-      } else {
-        colorIndex = (colorIndex + 0.05) % PALETTE.length;
-        baseColor = PALETTE[Math.floor(colorIndex)];
-      }
-      
-      trail.push({ 
-        x: clientX, 
-        y: clientY, 
-        life: 1.0, 
-        color: baseColor 
-      });
-
-      const sparkFrequency = 0.4;
-      if (Math.random() > sparkFrequency) {
-        sparks.push(new Spark(clientX, clientY, baseColor, isMobile));
-      }
-    };
-
     const handleMouseMove = (e: MouseEvent) => {
-      handleInput(e.clientX, e.clientY);
-      
-      // Dynamic color detection on hover
-      const target = e.target as HTMLElement;
-      if (target && (target.tagName === 'BUTTON' || target.tagName === 'A' || target.closest('button') || target.closest('a'))) {
-        const style = window.getComputedStyle(target.closest('button') || target.closest('a') || target);
-        const color = style.color || style.backgroundColor;
-        // If the color is not a standard gray/black/white, use it.
-        if (color && !color.includes('0, 0, 0') && !color.includes('255, 255, 255')) {
-          targetColor = color;
-        } else {
-          targetColor = null;
-        }
-      } else {
-        targetColor = null;
-      }
+      colorIndex = (colorIndex + 0.06) % PALETTE.length;
+      const color = PALETTE[Math.floor(colorIndex)];
+      trail.push({ x: e.clientX, y: e.clientY, life: 1.0, color });
+      // Trim to max to avoid unbounded growth
+      if (trail.length > MAX_TRAIL) trail.shift();
+
+      isMoving = true;
+      clearTimeout(moveTimeout);
+      moveTimeout = setTimeout(() => { isMoving = false; }, 150);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    let animationId: number;
     const animate = () => {
-      if (!ctx || !canvas) return;
-      
+      animationId = requestAnimationFrame(animate);
+
+      // Skip frame when mouse isn't moving to save GPU cycles
+      if (!isMoving && trail.length === 0) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Update trail
-      for (let i = 0; i < trail.length; i++) {
-        trail[i].life -= 0.025;
-      }
-      while (trail.length > 0 && trail[0].life <= 0) {
-        trail.shift();
+      // Decay trail
+      for (let i = trail.length - 1; i >= 0; i--) {
+        trail[i].life -= 0.04;
+        if (trail[i].life <= 0) { trail.splice(i, 1); }
       }
 
-      // Draw trail line
+      // Draw trail — NO shadowBlur (massive perf win)
       if (trail.length > 1) {
-        ctx.save();
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        
         for (let i = 1; i < trail.length; i++) {
           const p1 = trail[i - 1];
           const p2 = trail[i];
-
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p2.x, p2.y);
-          
-          ctx.lineWidth = p2.life * 6;
+          ctx.lineWidth = p2.life * 4;
           ctx.strokeStyle = p2.color;
-          ctx.globalAlpha = Math.max(0, p2.life * 0.8);
-          ctx.shadowBlur = 20;
-          ctx.shadowColor = p2.color;
-          
+          ctx.globalAlpha = Math.max(0, p2.life * 0.6);
+          ctx.lineCap = 'round';
           ctx.stroke();
         }
-        ctx.restore();
+        ctx.globalAlpha = 1;
       }
-
-      // Draw sparks
-      for (let i = 0; i < sparks.length; i++) {
-        sparks[i].update();
-        sparks[i].draw(ctx);
-        if (sparks[i].life <= 0) {
-          sparks.splice(i, 1);
-          i--;
-        }
-      }
-
-      animationId = requestAnimationFrame(animate);
     };
 
     animate();
@@ -194,13 +94,14 @@ const SmokeEffect: React.FC = () => {
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationId);
+      clearTimeout(moveTimeout);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="smoke-effect-canvas hidden md:block"
+      className="hidden lg:block"
       style={{
         position: 'fixed',
         top: 0,
@@ -208,8 +109,9 @@ const SmokeEffect: React.FC = () => {
         width: '100vw',
         height: '100vh',
         pointerEvents: 'none',
-        zIndex: 100, // Above content but non-blocking
-        mixBlendMode: 'screen', // Makes it vibrant against dark backgrounds
+        zIndex: 9999,
+        mixBlendMode: 'screen',
+        willChange: 'auto',
       }}
     />
   );

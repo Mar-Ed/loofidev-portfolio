@@ -46,40 +46,58 @@ export default function WhyUs() {
   }, [])
 
   return (
-    <section className="py-24 px-4 md:px-8 bg-black relative overflow-hidden">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center mb-16 gap-12">
-          <div className="flex-1">
-            <h2 className="text-4xl font-bold mb-6">
-              ¿Por qué elegir <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">LOOFIDEV</span>?
-            </h2>
-            <p className="text-gray-400 text-lg leading-relaxed">
-              Nos distanciamos del desarrollo convencional enfocado en la cantidad. Nuestra prioridad es el rigor técnico y el impacto real en el negocio.
-            </p>
+    <section className="py-32 px-4 md:px-8 bg-[#0a0a0b] relative overflow-hidden border-t border-white/5">
+      <div className="max-w-[1400px] mx-auto relative z-10">
+        <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 relative">
+          
+          {/* Sticky Left Column */}
+          <div className="lg:col-span-5 relative">
+            <div className="lg:sticky lg:top-32">
+              <motion.div
+                initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+                whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={isDesktop ? { duration: 1, ease: [0.16, 1, 0.3, 1] } : { duration: 0 }}
+              >
+                <h2 className="text-sm font-mono tracking-[0.3em] uppercase text-gray-500 mb-8">Nuestra Diferencia</h2>
+                <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter leading-[1.1] text-white mb-8">
+                  No somos<br />
+                  una fábrica<br />
+                  <span className="text-gray-600">de código.</span>
+                </h3>
+                <p className="text-lg text-gray-400 leading-relaxed max-w-sm">
+                  Nos distanciamos del desarrollo convencional enfocado en volumen. Nuestra prioridad es el rigor técnico, la escalabilidad y el impacto real en tu negocio.
+                </p>
+              </motion.div>
+            </div>
           </div>
-          <div className="hidden md:block h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {features.map((feature, idx) => (
-            <motion.div
-              key={idx}
-              initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
-              animate={isDesktop ? undefined : { opacity: 1, y: 0 }}
-              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-              viewport={{ once: true }}
-              transition={isDesktop ? { delay: idx * 0.1 } : undefined}
-              className="p-8 rounded-3xl bg-[#0a0a0b] border border-white/5 hover:border-white/10 transition-all flex flex-col items-start gap-6 group"
-            >
-              <div className="p-4 rounded-2xl bg-white/5 group-hover:scale-110 transition-transform">
-                {feature.icon}
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{feature.description}</p>
-              </div>
-            </motion.div>
-          ))}
+          {/* Scrolling Right Column (Typographic List) */}
+          <div className="lg:col-span-7 flex flex-col pt-12 lg:pt-0">
+            {features.map((feature, idx) => (
+              <motion.div
+                key={idx}
+                initial={isDesktop ? { opacity: 0, y: 40 } : { opacity: 1, y: 0 }}
+                whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={isDesktop ? { duration: 1, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] } : undefined}
+                className="group border-t border-white/10 py-16 first:border-t-0 lg:first:pt-0"
+              >
+                <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+                  <div className="w-2 h-2 rounded-full bg-cyan-400/40 group-hover:bg-cyan-400 group-hover:shadow-[0_0_10px_rgba(0,242,255,0.8)] transition-all duration-500 mt-3" />
+                  <div className="flex-1">
+                    <h4 className="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-cyan-400 transition-colors duration-500 tracking-tight">
+                      {feature.title}
+                    </h4>
+                    <p className="text-lg text-gray-400 leading-relaxed max-w-xl">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
         </div>
       </div>
     </section>
