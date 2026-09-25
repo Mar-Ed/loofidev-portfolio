@@ -46,7 +46,6 @@ const SOCIAL_LINKS = [
 ]
 
 const FOOTER_NAV = [
-  { label: 'Nosotros', href: '#nosotros' },
   { label: 'Servicios', href: '#servicios' },
   { label: 'Proyectos', href: '#proyectos' },
   { label: 'Contacto', href: '#contacto' }
@@ -78,7 +77,7 @@ export default function Footer() {
             />
             <span className="text-2xl font-bold tracking-tighter">LOOFI<span className="text-cyan-400">DEV</span></span>
           </div>
-          <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
+          <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
             Arquitectura de software premium para empresas que buscan escala, eficiencia y un futuro digital sólido.
           </p>
           <div className="flex gap-4">

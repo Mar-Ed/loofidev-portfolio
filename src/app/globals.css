@@ -8,6 +8,8 @@
   --font-sans: var(--font-apple);
   --font-mono: var(--font-apple-mono);
   --animate-shine: shine 2s ease-in-out infinite;
+  --animate-marquee: marquee 45s linear infinite;
+  @keyframes marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-100%, 0, 0); } }
 
   @keyframes shine {
     0% {
@@ -147,3 +149,4 @@
   background: #333;
   border-radius: 10px;
 }
+

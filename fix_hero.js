@@ -1,9 +1,11 @@
-﻿'use client'
+const fs = require('fs');
+
+const hero = `'use client'
 
 import Image from 'next/image'
 
 export default function Hero() {
-  const scrollTo = (selector: string) => {
+  const scrollTo = (selector) => {
     document.querySelector(selector)?.scrollIntoView({ block: 'start' })
   }
 
@@ -14,7 +16,6 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b]/40 via-transparent to-[#0a0a0b]/80" />
       </div>
 
-      {/* Background Glowing Orbs */}
       <div className="absolute top-1/3 left-[20%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-400/20 blur-[150px] rounded-[100%] pointer-events-none z-[2]" />
       <div className="absolute top-2/3 right-[10%] w-[500px] h-[500px] bg-blue-500/20 blur-[150px] rounded-[100%] pointer-events-none z-[2]" />
 
@@ -25,13 +26,13 @@ export default function Hero() {
             Desarrollo digital de alto rendimiento
           </div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-[88px] font-medium tracking-[-0.045em] mb-8 leading-[1.04] text-white">
-            Diseñamos tecnología<br />
+          <h1 className="text-5xl md:text-7xl lg:text-[88px] font-bold tracking-[-0.04em] mb-8 leading-[1.05] text-white">
+            Dise\u00f1amos tecnolog\u00eda<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">que convierte.</span>
           </h1>
 
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl font-medium leading-relaxed lg:border-l-2 lg:border-cyan-500/30 lg:pl-8 mx-auto lg:mx-0">
-            Creamos <strong className="text-white font-bold">páginas web de alto rendimiento</strong>, <strong className="text-white font-bold">sistemas web completos</strong> y <strong className="text-white font-bold">chatbots</strong> que transforman visitas y conversaciones en clientes.
+            Creamos <strong className="text-white font-bold">p\u00e1ginas web de alto rendimiento</strong>, <strong className="text-white font-bold">sistemas web completos</strong> y <strong className="text-white font-bold">chatbots</strong> que transforman visitas y conversaciones en clientes.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -51,14 +52,11 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Static Architect Element */}
         <div className="flex-1 w-full flex justify-center relative">
           <div className="relative w-full max-w-[460px]">
-            {/* Super Glow background */}
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 blur-[80px] z-0" />
 
             <div className="relative z-10 bg-[#0a0a0b]/40 backdrop-blur-3xl border border-white/10 p-8 rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.8)]">
-              {/* Window Controls */}
               <div className="flex justify-between items-center mb-8 pb-4 border-b border-white/5">
                 <div className="flex gap-2">
                   <div className="w-4 h-4 rounded-full bg-red-500/80 shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
@@ -70,10 +68,9 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div className="font-mono text-sm text-cyan-400 mb-2">import <span className="text-white">{`{ Core, Data }`}</span> from <span className="text-blue-400">&apos;@loofidev/system&apos;</span>;</div>
+              <div className="font-mono text-sm text-cyan-400 mb-2">import <span className="text-white">{'{ Core, Data }'}</span> from <span className="text-blue-400">&apos;@loofidev/system&apos;</span>;</div>
               <div className="font-mono text-sm text-gray-400 mb-8">{"// Inicializando arquitectura empresarial"}</div>
 
-              {/* Fake IDE Output */}
               <div className="space-y-4 font-mono text-sm">
                 <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
                   <span className="text-gray-300 font-semibold">Infraestructura DB</span>
@@ -81,7 +78,7 @@ export default function Hero() {
                 </div>
                 <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
                   <span className="text-gray-300 font-semibold">Latencia Global</span>
-                  <span className="text-blue-400 bg-blue-400/10 px-3 py-1.5 rounded-lg border border-blue-400/20 shadow-[0_0_15px_rgba(96,165,250,0.15)]">{"< 20ms"}</span>
+                  <span className="text-blue-400 bg-blue-400/10 px-3 py-1.5 rounded-lg border border-blue-400/20 shadow-[0_0_15px_rgba(96,165,250,0.15)]">{'< 20ms'}</span>
                 </div>
                 <div className="flex items-center justify-between p-4 rounded-2xl border border-cyan-500/40 bg-cyan-500/10 scale-[1.02] transform transition-all shadow-[0_0_30px_rgba(0,242,255,0.15)]">
                   <span className="text-cyan-100 font-bold">Arquitectura LOOFIDEV</span>
@@ -93,15 +90,8 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Floating Logo */}
             <div className="absolute -bottom-8 -right-4 md:-bottom-12 md:-right-12 w-32 h-32 md:w-40 md:h-40 bg-[#0a0a0b]/40 border border-white/20 rounded-[2rem] p-3 shadow-[0_30px_60px_rgba(0,0,0,0.8)] z-20 backdrop-blur-md">
-              <Image
-                src="/logo_oficial.jpeg"
-                alt="Logotipo de Loofi Dev - Agencia de Desarrollo Web y Software Premium"
-                width={160}
-                height={160}
-                className="w-full h-full object-contain rounded-2xl shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]"
-              />
+              <Image src="/logo_oficial.jpeg" alt="Logotipo de Loofi Dev" width={160} height={160} className="w-full h-full object-contain rounded-2xl" />
             </div>
           </div>
         </div>
@@ -109,3 +99,7 @@ export default function Hero() {
     </section>
   )
 }
+`;
+
+fs.writeFileSync('src/components/Hero.tsx', hero, { encoding: 'utf8' });
+console.log('OK - written with UTF-8');

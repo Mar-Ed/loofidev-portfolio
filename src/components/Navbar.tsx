@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
@@ -18,7 +18,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
 
   const pathname = usePathname()
-  const router = useRouter()
 
   // Handle scroll effect
   useEffect(() => {
@@ -64,9 +63,9 @@ export default function Navbar() {
 
 
   const navLinks = [
-    { name: 'Nosotros', href: '/#nosotros' },
-    { name: 'Servicios', href: '/#servicios' },
+    { name: 'Testimonios', href: '/#testimonios' },
     { name: 'Proyectos', href: '/#proyectos' },
+    { name: 'Capacidades', href: '/#servicios' },
   ]
 
   const teamMembers = [

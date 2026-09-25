@@ -97,7 +97,7 @@ export default function AdrianPage() {
                   className="object-cover object-center opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" 
                 />
                 <div className="absolute bottom-6 left-6 z-20">
-                  <h1 className="text-4xl font-extrabold text-white mb-1">Adrián</h1>
+                  <h1 className="text-4xl font-medium leading-[1.04] tracking-[-0.045em] text-white mb-1">Adrián</h1>
                   <div className="font-mono text-blue-400/80 tracking-widest text-sm">/fullstack-dev</div>
                 </div>
               </div>
@@ -106,7 +106,7 @@ export default function AdrianPage() {
 
           {/* Profile Content (Right Side) */}
           <div className="flex flex-col justify-center h-full pt-12 md:pt-20">
-            <h2 className="text-3xl font-bold mb-8 text-white tracking-tight">Sobre Mí</h2>
+            <h2 className="text-3xl font-medium leading-[1.04] tracking-[-0.045em] mb-8 text-white">Sobre Mí</h2>
             
             <div className="space-y-8 text-lg text-gray-400 font-light leading-[1.8]">
               
@@ -193,7 +193,7 @@ export default function AdrianPage() {
       <section className="py-20 px-6 relative z-10 border-t border-white/5 bg-gradient-to-b from-[#0a0a0b] to-[#050505]">
         <div className="max-w-6xl mx-auto opacity-0" ref={certSectionRef}>
           <div className="flex flex-col md:flex-row items-center gap-4 mb-12">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white">Logros &<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Certificaciones</span></h2>
+            <h2 className="text-3xl md:text-5xl font-medium leading-[1.04] tracking-[-0.045em] text-white">Logros &<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Certificaciones</span></h2>
             <div className="h-px bg-gradient-to-r from-blue-500/50 to-transparent flex-1 hidden md:block"></div>
           </div>
 
