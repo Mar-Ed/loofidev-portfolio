@@ -1,80 +1,101 @@
-import React from "react";
+import Image from "next/image";
 
-const mockCompanies = [
-  { id: 1, name: "Universidad Nacional de Ucayali", label: "UNU" },
-  { id: 2, name: "UPC", label: "UPC" },
-  { id: 3, name: "Universidad Continental", label: "Continental" },
-  { id: 4, name: "Universidad Católica San Pablo", label: "UCSP" },
-  { id: 5, name: "UCV", label: "UCV" },
-  { id: 6, name: "Pontificia Universidad", label: "PUCP" },
+type Company = {
+  id: number;
+  name: string;
+  src: string;
+  customClass: string;
+  filterClass?: string;
+  cellClass?: string;
+  width?: number;
+  height?: number;
+};
+
+const companies: Company[] = [
+  { 
+    id: 1,  
+    name: "Albertmath",        
+    src: "/logos_empresas/albertmath-normalized.webp",
+    customClass: "scale-100",
+    filterClass: "grayscale brightness-125 contrast-125 opacity-70",
+    width: 1365,
+    height: 528,
+  },
+  { 
+    id: 3,  
+    name: "CONEIMERA",         
+    src: "/logos_empresas/CONEIMERA.png",
+    customClass: "scale-100",
+  },
+  { 
+    id: 4,  
+    name: "Falcon Towers",     
+    src: "/logos_empresas/FALCON_TOWERS.png",
+    customClass: "scale-100",
+  },
+  { 
+    id: 5,  
+    name: "Top Beauty",        
+    src: "/logos_empresas/TOP_BEAUTY.png",
+    customClass: "scale-100",
+  },
+  { 
+    id: 6,  
+    name: "INSEPROIN",         
+    src: "/logos_empresas/inseproin.webp",
+    customClass: "scale-110",
+  },
+  { 
+    id: 7,  
+    name: "AIUARR",            
+    src: "/logos_empresas/LOGO_AIUARR_BLANCO_h.png",
+    customClass: "scale-100",
+  },
+  { 
+    id: 8,  
+    name: "JKO Asfaltos",          
+    src: "/logos_empresas/logo_oficial.webp",
+    customClass: "scale-100",
+    filterClass: "grayscale brightness-125 contrast-125 opacity-70",
+  },
+  { 
+    id: 10, 
+    name: "Sidercom",          
+    src: "/logos_empresas/SIDERCOM.png",
+    customClass: "scale-100",
+  },
 ];
 
 export default function Companies() {
   return (
-    <section className="bg-black py-24 md:py-32 border-y border-white/[0.03]">
-      <div className="mx-auto w-full max-w-[1320px] px-5 md:px-8">
-        
-        <header className="mx-auto max-w-4xl text-center mb-16 md:mb-20">
-          <h2 className="text-4xl font-medium leading-[1.02] tracking-[-0.05em] text-white md:text-5xl">
-            Empresas que <span className="text-cyan-300 block sm:inline">nos avalan.</span>
+    <section className="bg-black py-20 md:py-28">
+      <div className="mx-auto w-full max-w-[1200px] px-5 md:px-8">
+
+        <header className="mb-12 text-center md:mb-16">
+          <p className="mb-4 font-mono text-[9px] font-bold uppercase tracking-[0.28em] text-cyan-400">Confianza & colaboración</p>
+          <h2 className="text-3xl font-medium leading-[1.05] tracking-[-0.05em] text-white md:text-5xl">
+            Empresas que{" "}
+            <span className="text-cyan-300">nos avalan.</span>
           </h2>
         </header>
-        
-        {/* Contenedor principal de la animación con desvanecimiento premium */}
-        <div className="relative flex overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_15%,_black_85%,transparent_100%)]">
-          
-          {/* Grupo 1 */}
-          <div className="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-8 pr-8 sm:gap-12 sm:pr-12 will-change-transform">
-            {mockCompanies.map((company) => (
-              <div
-                key={company.id}
-                className="group relative flex h-24 w-60 sm:h-28 sm:w-72 shrink-0 items-center justify-center rounded-2xl border border-white/[0.04] bg-[#0a0a0c] px-6 text-center transition-all duration-700 hover:border-cyan-500/20 hover:bg-[#111216] hover:shadow-[0_0_30px_-5px_rgba(34,211,238,0.1)] overflow-hidden cursor-default"
-              >
-                {/* Glow interno sutil */}
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
-                
-                <div className="relative z-10 flex flex-col items-center gap-2.5 sm:gap-3">
-                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/[0.03] border border-white/[0.05] transition-transform duration-700 group-hover:scale-110 group-hover:border-cyan-400/30 group-hover:bg-cyan-400/10">
-                    <span className="font-mono text-sm sm:text-base font-bold text-zinc-500 transition-colors duration-700 group-hover:text-cyan-300">
-                      {company.label.substring(0, 2)}
-                    </span>
-                  </div>
-                  <span className="text-xs sm:text-sm font-medium tracking-wide text-zinc-500 transition-colors duration-700 group-hover:text-zinc-200">
-                    {company.name}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
 
-          {/* Grupo 2 (Duplicado exacto para el bucle infinito) */}
-          <div
-            aria-hidden="true"
-            className="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-8 pr-8 sm:gap-12 sm:pr-12 will-change-transform"
-          >
-            {mockCompanies.map((company) => (
-              <div
-                key={`dup-${company.id}`}
-                className="group relative flex h-24 w-60 sm:h-28 sm:w-72 shrink-0 items-center justify-center rounded-2xl border border-white/[0.04] bg-[#0a0a0c] px-6 text-center transition-all duration-700 hover:border-cyan-500/20 hover:bg-[#111216] hover:shadow-[0_0_30px_-5px_rgba(34,211,238,0.1)] overflow-hidden cursor-default"
-              >
-                {/* Glow interno sutil */}
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
-                
-                <div className="relative z-10 flex flex-col items-center gap-2.5 sm:gap-3">
-                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/[0.03] border border-white/[0.05] transition-transform duration-700 group-hover:scale-110 group-hover:border-cyan-400/30 group-hover:bg-cyan-400/10">
-                    <span className="font-mono text-sm sm:text-base font-bold text-zinc-500 transition-colors duration-700 group-hover:text-cyan-300">
-                      {company.label.substring(0, 2)}
-                    </span>
-                  </div>
-                  <span className="text-xs sm:text-sm font-medium tracking-wide text-zinc-500 transition-colors duration-700 group-hover:text-zinc-200">
-                    {company.name}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
+        <div className="grid grid-cols-2 border-l border-t border-white/10 sm:grid-cols-4">
+          {companies.map((company) => (
+            <div
+              key={company.id}
+              className={`group flex h-28 items-center justify-center overflow-hidden border-b border-r border-white/10 bg-black p-5 sm:h-32 md:h-36 md:p-7 hover:bg-white/[0.025] ${company.cellClass ?? ""}`}
+            >
+              <Image
+                src={company.src}
+                alt={company.name}
+                width={company.width ?? 220}
+                height={company.height ?? 100}
+                className={`h-12 w-auto max-w-[130px] object-contain transition-[opacity,filter] duration-200 group-hover:opacity-100 group-hover:drop-shadow-[0_0_12px_rgba(0,242,255,0.28)] sm:h-14 sm:max-w-[150px] md:h-16 md:max-w-[170px] ${company.filterClass ?? 'brightness-0 invert opacity-70'} ${company.customClass}`}
+              />
+            </div>
+          ))}
         </div>
+
       </div>
     </section>
   );

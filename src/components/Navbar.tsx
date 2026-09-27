@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
@@ -18,6 +18,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
 
   const pathname = usePathname()
+  const router = useRouter()
 
   // Handle scroll effect
   useEffect(() => {
@@ -26,46 +27,58 @@ export default function Navbar() {
     }
     window.addEventListener('scroll', handleScroll)
 
-    // Handle initial hash scroll
-    const hash = window.location.hash
-    if (hash && pathname === '/') {
-      setTimeout(() => {
+    const legacyHashTarget = window.location.hash.replace('#', '')
+    const storedTarget = window.sessionStorage.getItem('loofidev-scroll-target')
+    const targetId = storedTarget || legacyHashTarget
+
+    if (storedTarget) window.sessionStorage.removeItem('loofidev-scroll-target')
+    if (legacyHashTarget) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`)
+    }
+
+    if (targetId && pathname === '/') {
+      window.setTimeout(() => {
+        const element = document.getElementById(targetId)
+        if (!element) return
         gsap.to(window, {
-          duration: 1.5,
-          scrollTo: hash,
+          duration: 1.1,
+          scrollTo: { y: element, offsetY: 80 },
           ease: "power4.inOut"
         })
-      }, 500)
+      }, 250)
     }
 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [pathname])
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
-    const targetId = href.split('#')[1]
-    
-    if (pathname === '/' && targetId) {
-      e.preventDefault()
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, targetId: string) => {
+    e.preventDefault()
+    setIsOpen(false)
+
+    if (pathname === '/') {
       const element = document.getElementById(targetId)
       if (element) {
         gsap.to(window, {
-          duration: 1.5,
+          duration: 1.1,
           scrollTo: {
             y: element,
             offsetY: 80
           },
           ease: "power4.inOut"
         })
-        setIsOpen(false)
       }
+      return
     }
+
+    window.sessionStorage.setItem('loofidev-scroll-target', targetId)
+    router.push('/')
   }
 
 
   const navLinks = [
-    { name: 'Testimonios', href: '/#testimonios' },
-    { name: 'Proyectos', href: '/#proyectos' },
-    { name: 'Capacidades', href: '/#servicios' },
+    { name: 'Testimonios', targetId: 'testimonios' },
+    { name: 'Proyectos', targetId: 'proyectos' },
+    { name: 'Capacidades', targetId: 'servicios' },
   ]
 
   const teamMembers = [
@@ -101,8 +114,8 @@ export default function Navbar() {
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           <Link 
-            href="/#inicio" 
-            onClick={(e) => scrollToSection(e, "/#inicio")}
+            href="/" 
+            onClick={(e) => scrollToSection(e, "inicio")}
             className="flex items-center gap-3 group"
           >
             <div className="relative">
@@ -126,8 +139,8 @@ export default function Navbar() {
           {navLinks.map((link) => (
             <Link 
               key={link.name}
-              href={link.href} 
-              onClick={(e) => scrollToSection(e, link.href)}
+              href="/" 
+              onClick={(e) => scrollToSection(e, link.targetId)}
               className="relative group py-2"
             >
               <span className="hover:text-cyan-400 transition-colors uppercase tracking-[0.15em] text-[11px] font-bold">
@@ -168,8 +181,8 @@ export default function Navbar() {
 
           {/* Contacto Link - Always last */}
           <Link 
-            href="/#contacto" 
-            onClick={(e) => scrollToSection(e, "/#contacto")}
+            href="/" 
+            onClick={(e) => scrollToSection(e, "contacto")}
             className="relative group py-2"
           >
             <span className="hover:text-cyan-400 transition-colors uppercase tracking-[0.15em] text-[11px] font-bold">
@@ -222,9 +235,9 @@ export default function Navbar() {
                 {navLinks.map((link) => (
                   <Link 
                     key={link.name}
-                    href={link.href} 
+                    href="/" 
                     onClick={(e) => {
-                      scrollToSection(e, link.href)
+                      scrollToSection(e, link.targetId)
                       setIsOpen(false)
                     }}
                     className="text-2xl font-black text-white hover:text-cyan-400 transition-colors uppercase tracking-wider"
@@ -253,9 +266,9 @@ export default function Navbar() {
                 <div className="h-px bg-white/10 my-4" />
 
                 <Link 
-                  href="/#contacto" 
+                  href="/" 
                   onClick={(e) => {
-                    scrollToSection(e, "/#contacto")
+                    scrollToSection(e, "contacto")
                     setIsOpen(false)
                   }}
                   className="text-2xl font-black text-white hover:text-cyan-400 transition-colors uppercase tracking-wider"

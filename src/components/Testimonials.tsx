@@ -58,7 +58,7 @@ export default function Testimonials() {
     <section id="testimonios" className="flex min-h-screen items-center overflow-hidden bg-black px-5 py-16 md:px-8 md:py-20">
       <div className="mx-auto w-full max-w-[1080px]">
         <header className="mx-auto max-w-4xl text-center">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-400">02 / Testimonios</p>
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-400">Testimonios</p>
           <h2 className="mt-5 text-4xl font-medium leading-[1.02] tracking-[-0.05em] text-white md:text-5xl">
             Historias de clientes
             <span className="block text-cyan-300">que crecieron.</span>

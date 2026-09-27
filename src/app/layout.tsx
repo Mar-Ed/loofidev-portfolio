@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 
 import SmoothScroll from "@/components/SmoothScroll";
-import SmokeEffect from "@/components/SmokeEffect";
-
-const inter = Inter({ 
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://loofidev.com'),
@@ -90,7 +82,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={inter.variable}>
+    <html lang="es">
       <head>
         <script
           type="application/ld+json"
@@ -98,7 +90,6 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
-        <SmokeEffect />
         <SmoothScroll />
         {children}
       </body>

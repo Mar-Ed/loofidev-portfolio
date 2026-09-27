@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/image'
 
@@ -46,19 +48,24 @@ const SOCIAL_LINKS = [
 ]
 
 const FOOTER_NAV = [
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Proyectos', href: '#proyectos' },
-  { label: 'Contacto', href: '#contacto' }
+  { label: 'Servicios', targetId: 'servicios' },
+  { label: 'Proyectos', targetId: 'proyectos' },
+  { label: 'Contacto', targetId: 'contacto' }
 ]
 
 const SERVICES_NAV = [
-  { label: 'Sistemas ERP', href: '#servicios' },
-  { label: 'Sistemas CRM', href: '#servicios' },
-  { label: 'Desarrollo Full-Stack', href: '#servicios' },
-  { label: 'Cloud Computing', href: '#servicios' }
+  { label: 'Sistemas ERP', targetId: 'servicios' },
+  { label: 'Sistemas CRM', targetId: 'servicios' },
+  { label: 'Desarrollo Full-Stack', targetId: 'servicios' },
+  { label: 'Cloud Computing', targetId: 'servicios' }
 ]
 
 export default function Footer() {
+  const scrollToSection = (targetId: string) => {
+    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`)
+  }
+
   return (
     <footer className="relative pt-24 pb-12 px-4 md:px-8 border-t border-white/5 bg-[#0a0a0b]">
       {/* Decorative Glow */}
@@ -101,13 +108,14 @@ export default function Footer() {
           <h4 className="text-xs font-extrabold uppercase tracking-[0.25em] text-blue-400">Especialidades</h4>
           <nav className="flex flex-col items-center md:items-start gap-4">
             {SERVICES_NAV.map((item) => (
-              <a 
+              <button
+                type="button"
                 key={item.label} 
-                href={item.href} 
-                className="text-sm font-medium text-gray-400 hover:text-white transition-colors w-fit"
+                onClick={() => scrollToSection(item.targetId)}
+                className="w-fit cursor-pointer text-sm font-medium text-gray-400 transition-colors hover:text-white"
               >
                 {item.label}
-              </a>
+              </button>
             ))}
           </nav>
         </div>
@@ -117,13 +125,14 @@ export default function Footer() {
           <h4 className="text-xs font-extrabold uppercase tracking-[0.25em] text-cyan-400">Plataforma</h4>
           <nav className="flex flex-col items-center md:items-start gap-4">
             {FOOTER_NAV.map((item) => (
-              <a 
+              <button
+                type="button"
                 key={item.label} 
-                href={item.href} 
-                className="text-sm font-medium text-gray-400 hover:text-white transition-colors w-fit"
+                onClick={() => scrollToSection(item.targetId)}
+                className="w-fit cursor-pointer text-sm font-medium text-gray-400 transition-colors hover:text-white"
               >
                 {item.label}
-              </a>
+              </button>
             ))}
           </nav>
         </div>
@@ -149,8 +158,8 @@ export default function Footer() {
           © {new Date().getFullYear()} LOOFIDEV SOFTWARE & ENGINEERING. TODOS LOS DERECHOS RESERVADOS.
         </p>
         <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 text-[10px] text-gray-400 font-mono tracking-widest uppercase">
-          <a href="#" className="hover:text-white transition-colors">Privacidad</a>
-          <a href="#" className="hover:text-white transition-colors">Términos</a>
+          <button type="button" className="cursor-pointer transition-colors hover:text-white">Privacidad</button>
+          <button type="button" className="cursor-pointer transition-colors hover:text-white">Términos</button>
           <span className="text-gray-800 hidden sm:inline">|</span>
           <span className="text-cyan-400 font-bold opacity-80">V.2.0.4-STABLE</span>
         </div>

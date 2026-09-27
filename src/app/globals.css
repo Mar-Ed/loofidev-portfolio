@@ -31,7 +31,7 @@
 
 @layer base {
   :root {
-    --font-apple: "SF Pro Display", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Helvetica", "Arial", var(--font-inter), sans-serif;
+    --font-apple: "SF Pro Display", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     --font-apple-mono: "sf mono", "ui-mono", "SF Mono", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
   }
 

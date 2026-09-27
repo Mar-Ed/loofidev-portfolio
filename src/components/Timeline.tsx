@@ -1,4 +1,7 @@
+'use client'
+
 import Image from 'next/image'
+import type { PointerEvent } from 'react'
 
 type Project = {
   number: string
@@ -8,6 +11,9 @@ type Project = {
   description: string
   image: string
   imageAlt: string
+  secondaryImage?: string
+  secondaryImageAlt?: string
+  showFullImage?: boolean
   technologies: string[]
   href?: string
   accent: string
@@ -15,19 +21,20 @@ type Project = {
 
 const projects: Project[] = [
   {
-    number: '01',
+    number: '09',
     year: '2024',
     sector: 'Gastronomía & experiencia',
     title: 'La Panizzeria',
     description: 'Plataforma gastronómica de alto rendimiento diseñada para convertir una propuesta culinaria en una experiencia digital rápida, clara y memorable.',
     image: '/proyectos/panizzeria_imagen.jpeg',
     imageAlt: 'Sitio web de La Panizzeria',
+    showFullImage: true,
     technologies: ['Astro', 'MySQL', 'AWS RDS'],
     href: 'https://panizzeria-astro.vercel.app/',
     accent: 'text-orange-300',
   },
   {
-    number: '02',
+    number: '10',
     year: '2025',
     sector: 'Educación & eventos',
     title: 'CONEIMERA 2025',
@@ -39,24 +46,26 @@ const projects: Project[] = [
     accent: 'text-emerald-300',
   },
   {
-    number: '03',
+    number: '06',
     year: '2026',
     sector: 'Inteligencia comercial',
     title: 'Multi-Tenant BI & CRM',
     description: 'Plataforma empresarial que centraliza leads, integra operaciones multiempresa y convierte grandes volúmenes de datos en indicadores accionables de ROAS y CPA.',
     image: '/proyectos/crm_imagen.jpeg',
     imageAlt: 'Panel de inteligencia comercial y CRM',
+    showFullImage: true,
     technologies: ['React', 'Node.js', 'PostgreSQL', 'Chart.js'],
     accent: 'text-blue-300',
   },
   {
-    number: '04',
+    number: '11',
     year: '2026',
     sector: 'Telecomunicaciones & activos',
     title: 'Gestor de Torres',
     description: 'Sistema operativo para el control de infraestructura de telecomunicaciones, con seguimiento de activos, reportes ejecutivos y geolocalización centralizada.',
     image: '/proyectos/telecomunicaciones_imagen.jpeg',
     imageAlt: 'Sistema de reportes de torres de telecomunicaciones',
+    showFullImage: true,
     technologies: ['React 18', 'Node.js', 'MySQL', 'Drizzle ORM'],
     accent: 'text-violet-300',
   },
@@ -68,23 +77,25 @@ const projects: Project[] = [
     description: 'Presencia digital de alto impacto para una operación logística especializada, con una arquitectura visual premium y una experiencia enfocada en generar confianza comercial.',
     image: '/proyectos/asfalto_imagen.jpeg',
     imageAlt: 'Landing page corporativa de JKO Asfaltos',
+    showFullImage: true,
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-    href: 'https://jko-asfaltos.vercel.app/',
+    href: 'https://www.jkoasfaltos.com/',
     accent: 'text-cyan-300',
   },
   {
-    number: '06',
+    number: '07',
     year: '2026',
     sector: 'Operaciones & automatización',
     title: 'Top Beauty Box System',
     description: 'Suite administrativa que conecta caja, citas, asesoras, clientes, marketing y reportes en una sola operación con trazabilidad de principio a fin.',
     image: '/proyectos/top_beauty_caja.png',
     imageAlt: 'Sistema de caja y gestión de Top Beauty',
+    showFullImage: true,
     technologies: ['Next.js', 'MySQL', 'Prisma ORM', 'AWS'],
     accent: 'text-sky-300',
   },
   {
-    number: '07',
+    number: '08',
     year: '2026',
     sector: 'IA conversacional',
     title: 'WhatsApp AI Chatbot',
@@ -94,7 +105,61 @@ const projects: Project[] = [
     technologies: ['Node.js', 'TypeScript', 'Meta API', 'Google Sheets'],
     accent: 'text-green-300',
   },
+  {
+    number: '04',
+    year: '2026',
+    sector: 'Gastronomía & pedidos',
+    title: 'Cafetería El Molino',
+    description: 'Experiencia digital para descubrir la carta, explorar especialidades y convertir pedidos en conversaciones directas por WhatsApp con una navegación ágil y visual.',
+    image: '/proyectos/EL_MOLINO.jpeg',
+    imageAlt: 'Carta digital de Cafetería El Molino',
+    technologies: ['Diseño UX/UI', 'Desarrollo web', 'WhatsApp'],
+    href: 'https://www.cafeteriaelmolino.es/',
+    accent: 'text-orange-300',
+  },
+  {
+    number: '02',
+    year: '2026',
+    sector: 'Ingeniería & manufactura',
+    title: 'Grupo GENOLG',
+    description: 'Sitio corporativo orientado a comunicar capacidades metalmecánicas, acreditaciones y experiencia industrial con una estructura clara para generar confianza comercial.',
+    image: '/proyectos/GRUPO_GENOLG.jpeg',
+    imageAlt: 'Sitio corporativo de Grupo GENOLG',
+    technologies: ['Estrategia digital', 'Diseño responsive', 'SEO técnico'],
+    href: 'https://www.grupo-genolg.com/',
+    accent: 'text-amber-300',
+  },
+  {
+    number: '03',
+    year: '2026',
+    sector: 'Industria & operaciones',
+    title: 'INSEPROIN',
+    description: 'Plataforma corporativa que presenta servicios, trayectoria e indicadores operativos con una narrativa técnica enfocada en seguridad, experiencia y capacidad de ejecución.',
+    image: '/proyectos/INSEPROIN.jpeg',
+    imageAlt: 'Plataforma corporativa de INSEPROIN',
+    technologies: ['Arquitectura web', 'UX/UI', 'Optimización'],
+    href: 'https://inseproin-web.vercel.app/',
+    accent: 'text-red-300',
+  },
+  {
+    number: '01',
+    year: '2026',
+    sector: 'Educación & producto digital',
+    title: 'Albert Math Academy',
+    description: 'Ecosistema educativo que combina una presencia pública de alto impacto con una plataforma privada para entrenamiento, biblioteca, progreso y comunidad olímpica.',
+    image: '/proyectos/ALBERT_MATH_LANDING.jpeg',
+    imageAlt: 'Landing page de Albert Math Academy',
+    secondaryImage: '/proyectos/ALBERTH_MATH_INTRANET.jpeg',
+    secondaryImageAlt: 'Plataforma interna de Albert Math Academy',
+    technologies: ['Producto digital', 'Plataforma educativa', 'UX/UI'],
+    href: 'https://www.albertmathacademy.com/',
+    accent: 'text-orange-300',
+  },
 ]
+
+const orderedProjects = [...projects].sort(
+  (firstProject, secondProject) => Number(firstProject.number) - Number(secondProject.number),
+)
 
 function ArrowIcon() {
   return (
@@ -102,6 +167,16 @@ function ArrowIcon() {
       <path d="M5 19 19 5M8 5h11v11" />
     </svg>
   )
+}
+
+function moveVisitCursor(event: PointerEvent<HTMLDivElement>) {
+  const bounds = event.currentTarget.getBoundingClientRect()
+  const cursor = event.currentTarget.querySelector<HTMLElement>('[data-visit-cursor]')
+
+  if (!cursor) return
+
+  cursor.style.left = `${event.clientX - bounds.left}px`
+  cursor.style.top = `${event.clientY - bounds.top}px`
 }
 
 export default function Timeline() {
@@ -124,26 +199,52 @@ export default function Timeline() {
 
         {/* Grid de proyectos: 2 columnas, imágenes más compactas */}
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 md:gap-y-16">
-          {projects.map((project) => (
+          {orderedProjects.map((project) => (
             <article key={project.number} className="group flex flex-col gap-4">
 
               {/* Imagen compacta */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-[#101014]">
+              <div
+                onPointerMove={project.href ? moveVisitCursor : undefined}
+                className="group/media relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-[#101014]"
+              >
                 {project.href ? (
-                  <a href={project.href} target="_blank" rel="noopener noreferrer" aria-label={`Ver proyecto ${project.title}`} className="absolute inset-0 z-10" />
+                  <a href={project.href} target="_blank" rel="noopener noreferrer" aria-label={`Visitar proyecto ${project.title}`} className="absolute inset-0 z-30 cursor-pointer md:cursor-none" />
                 ) : null}
                 <Image
                   src={project.image}
                   alt={project.imageAlt}
                   fill
                   sizes="(max-width: 768px) 100vw, 600px"
-                  className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                  className={`${project.showFullImage ? 'object-contain object-center' : 'object-cover object-top group-hover:scale-[1.03]'} transition-transform duration-700`}
                 />
+                {project.secondaryImage && (
+                  <div className="pointer-events-none absolute bottom-4 right-4 z-20 aspect-[16/10] w-[42%] overflow-hidden rounded-lg border border-white/20 bg-[#071022] shadow-[-12px_-12px_36px_rgba(0,0,0,0.45)]">
+                    <Image
+                      src={project.secondaryImage}
+                      alt={project.secondaryImageAlt ?? ''}
+                      fill
+                      sizes="(max-width: 768px) 42vw, 250px"
+                      className="object-cover object-top"
+                    />
+                    <span className="absolute bottom-2 left-2 rounded-full border border-white/10 bg-black/70 px-2 py-1 font-mono text-[7px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm">
+                      Plataforma
+                    </span>
+                  </div>
+                )}
                 {/* Overlay suave */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                {/* Badge número / año */}
+                {project.href && (
+                  <span
+                    data-visit-cursor
+                    aria-hidden="true"
+                    className="pointer-events-none absolute left-1/2 top-1/2 z-40 hidden -translate-x-1/2 -translate-y-1/2 scale-75 items-center gap-2 rounded-full border border-white/25 bg-black/80 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white opacity-0 shadow-[0_12px_35px_rgba(0,0,0,0.35)] backdrop-blur-md transition-[opacity,transform] duration-200 group-hover/media:scale-100 group-hover/media:opacity-100 md:inline-flex"
+                  >
+                    Visitar <ArrowIcon />
+                  </span>
+                )}
+                {/* Índice del proyecto */}
                 <span className="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur-sm">
-                  {project.number} / {project.year}
+                  {project.number}
                 </span>
                 {/* Badge estado si es privado */}
                 {!project.href && (
