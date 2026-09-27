@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import type { PointerEvent } from 'react'
 
 type Project = {
@@ -11,6 +12,7 @@ type Project = {
   description: string
   image: string
   imageAlt: string
+  gallery?: string[]
   secondaryImage?: string
   secondaryImageAlt?: string
   showFullImage?: boolean
@@ -90,6 +92,14 @@ const projects: Project[] = [
     description: 'Suite administrativa que conecta caja, citas, asesoras, clientes, marketing y reportes en una sola operación con trazabilidad de principio a fin.',
     image: '/proyectos/top_beauty_caja.png',
     imageAlt: 'Sistema de caja y gestión de Top Beauty',
+    gallery: [
+      '/proyectos/top_beauty_caja.png',
+      '/proyectos/top_beauty_asesoras.webp',
+      '/proyectos/top_beauty_clientes.webp',
+      '/proyectos/top_beauty_imagen.webp',
+      '/proyectos/top_beauty_marketing.webp',
+      '/proyectos/top_beauty_reportes.webp',
+    ],
     showFullImage: true,
     technologies: ['Next.js', 'MySQL', 'Prisma ORM', 'AWS'],
     accent: 'text-sky-300',
@@ -102,6 +112,12 @@ const projects: Project[] = [
     description: 'Asistente conectado con Meta Cloud API que automatiza reservas, consultas de servicios y sincronización operativa sin perder continuidad en la atención.',
     image: '/proyectos/chatbot_meta_1.png',
     imageAlt: 'Flujo automatizado del chatbot de WhatsApp',
+    gallery: [
+      '/proyectos/chatbot_meta_1.png',
+      '/proyectos/chatbot_meta_2.webp',
+      '/proyectos/chatbot_meta_3.webp',
+      '/proyectos/chatbot_meta_4.webp',
+    ],
     technologies: ['Node.js', 'TypeScript', 'Meta API', 'Google Sheets'],
     accent: 'text-green-300',
   },
@@ -179,6 +195,96 @@ function moveVisitCursor(event: PointerEvent<HTMLDivElement>) {
   cursor.style.top = `${event.clientY - bounds.top}px`
 }
 
+function ProjectMedia({ project }: { project: Project }) {
+  const frames = project.gallery ?? [project.image]
+  const [activeFrame, setActiveFrame] = useState(0)
+  const [isHovering, setIsHovering] = useState(false)
+
+  useEffect(() => {
+    if (!isHovering || frames.length < 2) return
+
+    const interval = window.setInterval(() => {
+      setActiveFrame((currentFrame) => (currentFrame + 1) % frames.length)
+    }, 1000)
+
+    return () => window.clearInterval(interval)
+  }, [isHovering, frames.length])
+
+  const stopGallery = () => {
+    setIsHovering(false)
+    setActiveFrame(0)
+  }
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={stopGallery}
+      onPointerMove={project.href ? moveVisitCursor : undefined}
+      className="group/media relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-[#101014]"
+    >
+      {project.href ? (
+        <a href={project.href} target="_blank" rel="noopener noreferrer" aria-label={`Visitar proyecto ${project.title}`} className="absolute inset-0 z-30 cursor-pointer" />
+      ) : null}
+
+      {frames.map((frame, frameIndex) => (
+        <Image
+          key={frame}
+          src={frame}
+          alt={frameIndex === 0 ? project.imageAlt : `${project.imageAlt}, vista ${frameIndex + 1}`}
+          fill
+          sizes="(max-width: 768px) 100vw, 600px"
+          className={`${project.showFullImage ? 'object-contain object-center group-hover:scale-[1.018]' : 'object-cover object-top group-hover:scale-[1.03]'} ${frameIndex === activeFrame ? 'opacity-100' : 'opacity-0'} transition-[opacity,transform] duration-500 ease-out`}
+        />
+      ))}
+
+      {project.secondaryImage && (
+        <div className="pointer-events-none absolute bottom-4 right-4 z-20 aspect-[16/10] w-[42%] overflow-hidden rounded-lg border border-white/20 bg-[#071022] shadow-[-12px_-12px_36px_rgba(0,0,0,0.45)]">
+          <Image
+            src={project.secondaryImage}
+            alt={project.secondaryImageAlt ?? ''}
+            fill
+            sizes="(max-width: 768px) 42vw, 250px"
+            className="object-cover object-top"
+          />
+          <span className="absolute bottom-2 left-2 rounded-full border border-white/10 bg-black/70 px-2 py-1 font-mono text-[7px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm">
+            Plataforma
+          </span>
+        </div>
+      )}
+
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+
+      {project.href && (
+        <span
+          data-visit-cursor
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 z-40 hidden -translate-x-1/2 -translate-y-1/2 scale-75 items-center gap-2 rounded-full border border-white/25 bg-black/80 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white opacity-0 shadow-[0_12px_35px_rgba(0,0,0,0.35)] backdrop-blur-md transition-[opacity,transform] duration-200 group-hover/media:scale-100 group-hover/media:opacity-100 md:inline-flex"
+        >
+          Visitar <ArrowIcon />
+        </span>
+      )}
+
+      <span className="absolute left-4 top-4 z-20 rounded-full bg-black/60 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur-sm">
+        {project.number}
+      </span>
+
+      {!project.href && (
+        <span className="absolute right-4 top-4 z-20 rounded-full bg-black/60 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 backdrop-blur-sm">
+          Privado
+        </span>
+      )}
+
+      {frames.length > 1 && (
+        <div className="pointer-events-none absolute bottom-4 left-4 z-20 flex gap-1.5 opacity-0 transition-opacity duration-300 group-hover/media:opacity-100" aria-hidden="true">
+          {frames.map((frame, frameIndex) => (
+            <span key={frame} className={`h-1 rounded-full transition-all duration-300 ${frameIndex === activeFrame ? 'w-5 bg-cyan-300' : 'w-1 bg-white/45'}`} />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Timeline() {
   return (
     <section id="proyectos" className="bg-black py-24 md:py-32">
@@ -203,56 +309,7 @@ export default function Timeline() {
             <article key={project.number} className="group flex flex-col gap-4">
 
               {/* Imagen compacta */}
-              <div
-                onPointerMove={project.href ? moveVisitCursor : undefined}
-                className="group/media relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-[#101014]"
-              >
-                {project.href ? (
-                  <a href={project.href} target="_blank" rel="noopener noreferrer" aria-label={`Visitar proyecto ${project.title}`} className="absolute inset-0 z-30 cursor-pointer md:cursor-none" />
-                ) : null}
-                <Image
-                  src={project.image}
-                  alt={project.imageAlt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 600px"
-                  className={`${project.showFullImage ? 'object-contain object-center' : 'object-cover object-top group-hover:scale-[1.03]'} transition-transform duration-700`}
-                />
-                {project.secondaryImage && (
-                  <div className="pointer-events-none absolute bottom-4 right-4 z-20 aspect-[16/10] w-[42%] overflow-hidden rounded-lg border border-white/20 bg-[#071022] shadow-[-12px_-12px_36px_rgba(0,0,0,0.45)]">
-                    <Image
-                      src={project.secondaryImage}
-                      alt={project.secondaryImageAlt ?? ''}
-                      fill
-                      sizes="(max-width: 768px) 42vw, 250px"
-                      className="object-cover object-top"
-                    />
-                    <span className="absolute bottom-2 left-2 rounded-full border border-white/10 bg-black/70 px-2 py-1 font-mono text-[7px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm">
-                      Plataforma
-                    </span>
-                  </div>
-                )}
-                {/* Overlay suave */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                {project.href && (
-                  <span
-                    data-visit-cursor
-                    aria-hidden="true"
-                    className="pointer-events-none absolute left-1/2 top-1/2 z-40 hidden -translate-x-1/2 -translate-y-1/2 scale-75 items-center gap-2 rounded-full border border-white/25 bg-black/80 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white opacity-0 shadow-[0_12px_35px_rgba(0,0,0,0.35)] backdrop-blur-md transition-[opacity,transform] duration-200 group-hover/media:scale-100 group-hover/media:opacity-100 md:inline-flex"
-                  >
-                    Visitar <ArrowIcon />
-                  </span>
-                )}
-                {/* Índice del proyecto */}
-                <span className="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur-sm">
-                  {project.number}
-                </span>
-                {/* Badge estado si es privado */}
-                {!project.href && (
-                  <span className="absolute right-4 top-4 rounded-full bg-black/60 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 backdrop-blur-sm">
-                    Privado
-                  </span>
-                )}
-              </div>
+              <ProjectMedia project={project} />
 
               {/* Info debajo de la imagen */}
               <div className="flex items-start justify-between gap-4">
