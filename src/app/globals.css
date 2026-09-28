@@ -136,6 +136,26 @@
   }
 }
 
+@keyframes project-frame-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.project-gallery-frame {
+  animation: project-frame-in 500ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-gallery-frame {
+    animation: none;
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

@@ -24,19 +24,19 @@ const companies: Company[] = [
   { 
     id: 3,  
     name: "CONEIMERA",         
-    src: "/logos_empresas/CONEIMERA.png",
+    src: "/logos_empresas/.webp",
     customClass: "scale-100",
   },
   { 
     id: 4,  
     name: "Falcon Towers",     
-    src: "/logos_empresas/FALCON_TOWERS.png",
+    src: "/logos_empresas/.webp",
     customClass: "scale-100",
   },
   { 
     id: 5,  
     name: "Top Beauty",        
-    src: "/logos_empresas/TOP_BEAUTY.png",
+    src: "/logos_empresas/.webp",
     customClass: "scale-100",
   },
   { 
@@ -48,7 +48,7 @@ const companies: Company[] = [
   { 
     id: 7,  
     name: "AIUARR",            
-    src: "/logos_empresas/LOGO_AIUARR_BLANCO_h.png",
+    src: "/logos_empresas/.webp",
     customClass: "scale-100",
   },
   { 
@@ -61,7 +61,7 @@ const companies: Company[] = [
   { 
     id: 10, 
     name: "Sidercom",          
-    src: "/logos_empresas/SIDERCOM.png",
+    src: "/logos_empresas/.webp",
     customClass: "scale-100",
   },
 ];

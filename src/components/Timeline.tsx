@@ -30,6 +30,14 @@ const projects: Project[] = [
     description: 'Plataforma gastronómica de alto rendimiento diseñada para convertir una propuesta culinaria en una experiencia digital rápida, clara y memorable.',
     image: '/proyectos/panizzeria_imagen.jpeg',
     imageAlt: 'Sitio web de La Panizzeria',
+    gallery: [
+      '/proyectos/panizzeria_imagen.jpeg',
+      '/proyectos/panizzeria_2.jpeg',
+      '/proyectos/panizzeria_3.jpeg',
+      '/proyectos/panizzeria_4.jpeg',
+      '/proyectos/panizzeria_5.jpeg',
+      '/proyectos/panizzeria_6.jpeg',
+    ],
     showFullImage: true,
     technologies: ['Astro', 'MySQL', 'AWS RDS'],
     href: 'https://panizzeria-astro.vercel.app/',
@@ -43,6 +51,13 @@ const projects: Project[] = [
     description: 'Ecosistema oficial para un congreso nacional de ingeniería, preparado para comunicar el programa, organizar la experiencia y responder ante alta concurrencia.',
     image: '/proyectos/coneimera_imagen.jpeg',
     imageAlt: 'Plataforma oficial de CONEIMERA 2025',
+    gallery: [
+      '/proyectos/coneimera_imagen.jpeg',
+      '/proyectos/coneimera_2.jpeg',
+      '/proyectos/coneimera_3.jpeg',
+      '/proyectos/coneimera_4.jpeg',
+      '/proyectos/coneimera_5.jpeg',
+    ],
     technologies: ['Astro', 'Svelte', 'Tailwind CSS'],
     href: 'https://coneimera.vercel.app/',
     accent: 'text-emerald-300',
@@ -55,6 +70,12 @@ const projects: Project[] = [
     description: 'Plataforma empresarial que centraliza leads, integra operaciones multiempresa y convierte grandes volúmenes de datos en indicadores accionables de ROAS y CPA.',
     image: '/proyectos/crm_imagen.jpeg',
     imageAlt: 'Panel de inteligencia comercial y CRM',
+    gallery: [
+      '/proyectos/crm_imagen.jpeg',
+      '/proyectos/cmr_2.jpeg',
+      '/proyectos/cmr_3.jpeg',
+      '/proyectos/crm_4.jpeg',
+    ],
     showFullImage: true,
     technologies: ['React', 'Node.js', 'PostgreSQL', 'Chart.js'],
     accent: 'text-blue-300',
@@ -79,6 +100,13 @@ const projects: Project[] = [
     description: 'Presencia digital de alto impacto para una operación logística especializada, con una arquitectura visual premium y una experiencia enfocada en generar confianza comercial.',
     image: '/proyectos/asfalto_imagen.jpeg',
     imageAlt: 'Landing page corporativa de JKO Asfaltos',
+    gallery: [
+      '/proyectos/asfalto_imagen.jpeg',
+      '/proyectos/JKO_2.jpeg',
+      '/proyectos/JKO_3.jpeg',
+      '/proyectos/JKO_4.jpeg',
+      '/proyectos/JKO_5.jpeg',
+    ],
     showFullImage: true,
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS'],
     href: 'https://www.jkoasfaltos.com/',
@@ -129,6 +157,14 @@ const projects: Project[] = [
     description: 'Experiencia digital para descubrir la carta, explorar especialidades y convertir pedidos en conversaciones directas por WhatsApp con una navegación ágil y visual.',
     image: '/proyectos/EL_MOLINO.jpeg',
     imageAlt: 'Carta digital de Cafetería El Molino',
+    gallery: [
+      '/proyectos/EL_MOLINO.jpeg',
+      '/proyectos/EL_MOLINO_2.jpeg',
+      '/proyectos/EL_MOLINO_3.jpeg',
+      '/proyectos/EL_MOLINO_4.jpeg',
+      '/proyectos/EL_MOLINO_5.jpeg',
+      '/proyectos/EL_MOLINO_6.jpeg',
+    ],
     technologies: ['Diseño UX/UI', 'Desarrollo web', 'WhatsApp'],
     href: 'https://www.cafeteriaelmolino.es/',
     accent: 'text-orange-300',
@@ -141,6 +177,15 @@ const projects: Project[] = [
     description: 'Sitio corporativo orientado a comunicar capacidades metalmecánicas, acreditaciones y experiencia industrial con una estructura clara para generar confianza comercial.',
     image: '/proyectos/GRUPO_GENOLG.jpeg',
     imageAlt: 'Sitio corporativo de Grupo GENOLG',
+    gallery: [
+      '/proyectos/GRUPO_GENOLG.jpeg',
+      '/proyectos/grupo_genolg_2.jpeg',
+      '/proyectos/grupo_genolg_3.jpeg',
+      '/proyectos/grupo_genolg_4.jpeg',
+      '/proyectos/grupo_genolg_5.jpeg',
+      '/proyectos/grupo_genolg_6.jpeg',
+      '/proyectos/grupo_genolg_7.jpeg',
+    ],
     technologies: ['Estrategia digital', 'Diseño responsive', 'SEO técnico'],
     href: 'https://www.grupo-genolg.com/',
     accent: 'text-amber-300',
@@ -153,6 +198,13 @@ const projects: Project[] = [
     description: 'Plataforma corporativa que presenta servicios, trayectoria e indicadores operativos con una narrativa técnica enfocada en seguridad, experiencia y capacidad de ejecución.',
     image: '/proyectos/INSEPROIN.jpeg',
     imageAlt: 'Plataforma corporativa de INSEPROIN',
+    gallery: [
+      '/proyectos/INSEPROIN.jpeg',
+      '/proyectos/INSEPROIN_2.jpeg',
+      '/proyectos/INSEPROIN_3.jpeg',
+      '/proyectos/INSEPROIN_4.jpeg',
+      '/proyectos/INSEPROIN_5.jpeg',
+    ],
     technologies: ['Arquitectura web', 'UX/UI', 'Optimización'],
     href: 'https://inseproin-web.vercel.app/',
     accent: 'text-red-300',
@@ -165,8 +217,16 @@ const projects: Project[] = [
     description: 'Ecosistema educativo que combina una presencia pública de alto impacto con una plataforma privada para entrenamiento, biblioteca, progreso y comunidad olímpica.',
     image: '/proyectos/ALBERT_MATH_LANDING.jpeg',
     imageAlt: 'Landing page de Albert Math Academy',
-    secondaryImage: '/proyectos/ALBERTH_MATH_INTRANET.jpeg',
-    secondaryImageAlt: 'Plataforma interna de Albert Math Academy',
+    gallery: [
+      '/proyectos/ALBERT_MATH_LANDING.jpeg',
+      '/proyectos/ALBERT_MATH_LANDING_2.jpeg',
+      '/proyectos/ALBERT_MATH_LANDING_3.jpeg',
+      '/proyectos/ALBERT_MATH_LANDING_4.jpeg',
+      '/proyectos/ALBERT_MATH_LANDING_5.jpeg',
+      '/proyectos/ALBERTH_MATH_INTRANET.jpeg',
+      '/proyectos/ALBERT_MATH_AULA1.jpeg',
+      '/proyectos/ALBERT_MATH_AULA2.jpeg',
+    ],
     technologies: ['Producto digital', 'Plataforma educativa', 'UX/UI'],
     href: 'https://www.albertmathacademy.com/',
     accent: 'text-orange-300',
@@ -226,16 +286,14 @@ function ProjectMedia({ project }: { project: Project }) {
         <a href={project.href} target="_blank" rel="noopener noreferrer" aria-label={`Visitar proyecto ${project.title}`} className="absolute inset-0 z-30 cursor-pointer" />
       ) : null}
 
-      {frames.map((frame, frameIndex) => (
-        <Image
-          key={frame}
-          src={frame}
-          alt={frameIndex === 0 ? project.imageAlt : `${project.imageAlt}, vista ${frameIndex + 1}`}
-          fill
-          sizes="(max-width: 768px) 100vw, 600px"
-          className={`${project.showFullImage ? 'object-contain object-center group-hover:scale-[1.018]' : 'object-cover object-top group-hover:scale-[1.03]'} ${frameIndex === activeFrame ? 'opacity-100' : 'opacity-0'} transition-[opacity,transform] duration-500 ease-out`}
-        />
-      ))}
+      <Image
+        key={frames[activeFrame]}
+        src={frames[activeFrame]}
+        alt={activeFrame === 0 ? project.imageAlt : `${project.imageAlt}, vista ${activeFrame + 1}`}
+        fill
+        sizes="(max-width: 768px) 100vw, 600px"
+        className={`${project.showFullImage ? 'object-contain object-center group-hover:scale-[1.018]' : 'object-cover object-top group-hover:scale-[1.03]'} project-gallery-frame transition-transform duration-500 ease-out`}
+      />
 
       {project.secondaryImage && (
         <div className="pointer-events-none absolute bottom-4 right-4 z-20 aspect-[16/10] w-[42%] overflow-hidden rounded-lg border border-white/20 bg-[#071022] shadow-[-12px_-12px_36px_rgba(0,0,0,0.45)]">
