@@ -26,13 +26,13 @@ const mockTestimonials = [
     video: '/videos/hero-background.mp4',
   },
   {
-    name: 'Manuel Sanchez',
+    name: 'Karen Galarza',
     role: 'Coordinador',
-    company: 'Facultad de Ciencias Veterinarias - UNC',
+    company: 'JKO Asfaltos',
     quote: 'La plataforma mejoró la experiencia desde el primer contacto. Nuestros alumnos pueden consultar y acceder sin esperar, mientras el equipo recibe toda la información organizada.',
     result: '24/7',
     resultLabel: 'atención automatizada',
-    poster: '/proyectos/EL_MOLINO.webp',
+    poster: '/proyectos/asfalto_imagen.webp',
     video: '/videos/hero-background.mp4',
   },
 ]
