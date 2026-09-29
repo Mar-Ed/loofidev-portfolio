@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import type { PointerEvent } from 'react'
+import SectionHeadingReveal from './SectionHeadingReveal'
+import SectionContentReveal from './SectionContentReveal'
 
 type Project = {
   number: string
@@ -349,22 +351,22 @@ export default function Timeline() {
       <div className="mx-auto w-full max-w-[1200px] px-8">
 
         {/* Header */}
-        <header className="mb-16 md:mb-24 text-center">
-          <p className="mb-6 font-mono text-xs font-bold uppercase tracking-[0.2em] text-cyan-400">
+        <SectionHeadingReveal className="mb-16 text-center md:mb-24">
+          <p data-section-reveal className="mb-6 font-mono text-xs font-bold uppercase tracking-[0.2em] text-cyan-400">
             Proyectos seleccionados — LOOFIDEV
           </p>
-          <h2 className="mx-auto max-w-3xl text-4xl font-medium leading-[1.05] tracking-[-0.05em] text-white md:text-5xl">
+          <h2 data-section-reveal className="mx-auto max-w-3xl text-4xl font-medium leading-[1.05] tracking-[-0.05em] text-white md:text-5xl">
             Productos digitales que hacen visible el valor real de tu negocio.
           </h2>
-          <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-zinc-400 md:text-lg">
+          <p data-section-reveal className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-zinc-400 md:text-lg">
             Estrategia, diseño e ingeniería aplicados a plataformas que deben verse bien, funcionar mejor y sostener operaciones reales.
           </p>
-        </header>
+        </SectionHeadingReveal>
 
         {/* Grid de proyectos: 2 columnas, imágenes más compactas */}
-        <div className="grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 md:gap-y-16">
+        <SectionContentReveal className="grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 md:gap-y-16">
           {orderedProjects.map((project) => (
-            <article key={project.number} className="group flex flex-col gap-4">
+            <article key={project.number} data-content-reveal className="group flex flex-col gap-4">
 
               {/* Imagen compacta */}
               <ProjectMedia project={project} />
@@ -397,7 +399,7 @@ export default function Timeline() {
 
             </article>
           ))}
-        </div>
+        </SectionContentReveal>
 
       </div>
     </section>

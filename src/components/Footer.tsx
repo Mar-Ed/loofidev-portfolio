@@ -76,7 +76,7 @@ export default function Footer() {
         <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6">
           <div className="flex items-center gap-4">
             <Image 
-              src="/logo_oficial.jpeg" 
+              src="/logo_loofidev_2.webp" 
               alt="LOOFIDEV Logo" 
               width={48} 
               height={48} 

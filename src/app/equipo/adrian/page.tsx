@@ -89,7 +89,7 @@ export default function AdrianPage() {
               <div className="w-full aspect-[4/5] bg-[#0a0a0b] rounded-[1.2rem] relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
                 <Image 
-                  src="/fotos_dev/adrian_foto.jpg" 
+                  src="/fotos_dev/adrian_foto.webp" 
                   alt="Foto de perfil de Adrián, Desarrollador Fullstack" 
                   priority
                   fill
@@ -213,7 +213,7 @@ export default function AdrianPage() {
               )},
               { label: "Impacto", value: "Validación internacional de modelos de datos para la toma de decisiones estratégicas en el sector académico y profesional." }
             ]}
-            imageSrc="/fotos_dev/certificado_adrian_congreso.jpg"
+            imageSrc="/fotos_dev/certificado_adrian_congreso.webp"
           />
         </div>
       </section>

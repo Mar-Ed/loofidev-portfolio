@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
+import SectionHeadingReveal from './SectionHeadingReveal'
+import SectionContentReveal from './SectionContentReveal'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -65,13 +67,14 @@ export default function Contact() {
   return (
     <section id="contacto" className="py-24 px-4 md:px-8 relative overflow-hidden">
       <div className="max-w-4xl mx-auto p-12 rounded-[40px] bg-gradient-to-b from-white/5 to-transparent border border-white/10 relative z-10">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-medium leading-[1.04] tracking-[-0.045em] text-white mb-4 md:text-5xl">¿Listo para el siguiente nivel?</h2>
-          <p className="text-gray-400">Nuestro equipo está listo para digitalizar sus procesos corporativos.</p>
-        </div>
+        <SectionHeadingReveal className="mb-12 text-center">
+          <h2 data-section-reveal className="mb-4 text-3xl font-medium leading-[1.04] tracking-[-0.045em] text-white md:text-5xl">¿Listo para el siguiente nivel?</h2>
+          <p data-section-reveal className="text-gray-400">Nuestro equipo está listo para digitalizar sus procesos corporativos.</p>
+        </SectionHeadingReveal>
         
-        <form className="grid md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
-          <div>
+        <SectionContentReveal>
+        <form className="grid gap-6 md:grid-cols-2" onSubmit={handleSubmit}>
+          <div data-content-reveal>
             <label className="block text-xs font-bold text-gray-300 mb-2 uppercase tracking-widest">Nombre completo</label>
             <input 
               type="text" 
@@ -83,7 +86,7 @@ export default function Contact() {
               required
             />
           </div>
-          <div>
+          <div data-content-reveal>
             <label className="block text-xs font-bold text-gray-300 mb-2 uppercase tracking-widest">Correo Corporativo</label>
             <input 
               type="email" 
@@ -95,7 +98,7 @@ export default function Contact() {
               required
             />
           </div>
-          <div className="md:col-span-2">
+          <div data-content-reveal className="md:col-span-2">
             <label className="block text-xs font-bold text-gray-300 mb-2 uppercase tracking-widest">Descripción del Proyecto</label>
             <textarea 
               rows={4} 
@@ -107,7 +110,7 @@ export default function Contact() {
               required
             />
           </div>
-          <div className="md:col-span-2">
+          <div data-content-reveal className="md:col-span-2">
             <button 
               disabled={isSubmitting}
               className={`w-full btn-primary p-4 rounded-xl font-bold text-black uppercase tracking-tighter hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
@@ -123,6 +126,7 @@ export default function Contact() {
             </button>
           </div>
         </form>
+        </SectionContentReveal>
 
         {showSuccess && (
           <div className="mt-6 p-4 bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 rounded-xl text-center animate-pulse">

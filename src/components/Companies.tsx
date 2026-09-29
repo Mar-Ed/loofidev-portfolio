@@ -1,4 +1,6 @@
 import Image from "next/image";
+import SectionHeadingReveal from "./SectionHeadingReveal";
+import SectionContentReveal from "./SectionContentReveal";
 
 type Company = {
   id: number;
@@ -71,18 +73,19 @@ export default function Companies() {
     <section className="bg-black py-20 md:py-28">
       <div className="mx-auto w-full max-w-[1200px] px-5 md:px-8">
 
-        <header className="mb-12 text-center md:mb-16">
-          <p className="mb-4 font-mono text-[9px] font-bold uppercase tracking-[0.28em] text-cyan-400">Confianza & colaboración</p>
-          <h2 className="text-3xl font-medium leading-[1.05] tracking-[-0.05em] text-white md:text-5xl">
+        <SectionHeadingReveal className="mb-12 text-center md:mb-16">
+          <p data-section-reveal className="mb-4 font-mono text-[9px] font-bold uppercase tracking-[0.28em] text-cyan-400">Confianza & colaboración</p>
+          <h2 data-section-reveal className="text-3xl font-medium leading-[1.05] tracking-[-0.05em] text-white md:text-5xl">
             Empresas que{" "}
             <span className="text-cyan-300">nos avalan.</span>
           </h2>
-        </header>
+        </SectionHeadingReveal>
 
-        <div className="grid grid-cols-2 border-l border-t border-white/10 sm:grid-cols-4">
+        <SectionContentReveal className="grid grid-cols-2 border-l border-t border-white/10 sm:grid-cols-4">
           {companies.map((company) => (
             <div
               key={company.id}
+              data-content-reveal
               className={`group flex h-28 items-center justify-center overflow-hidden border-b border-r border-white/10 bg-black p-5 sm:h-32 md:h-36 md:p-7 hover:bg-white/[0.025] ${company.cellClass ?? ""}`}
             >
               <Image
@@ -94,7 +97,7 @@ export default function Companies() {
               />
             </div>
           ))}
-        </div>
+        </SectionContentReveal>
 
       </div>
     </section>

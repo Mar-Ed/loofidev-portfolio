@@ -1,14 +1,87 @@
 ﻿'use client'
 
 import Image from 'next/image'
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 export default function Hero() {
+  const heroRef = useRef<HTMLElement>(null)
+  const visualRef = useRef<HTMLDivElement>(null)
+  const eyebrowRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const textRefs = useRef<(HTMLParagraphElement | HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    const context = gsap.context(() => {
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 80%',
+          end: 'bottom 15%',
+          toggleActions: 'restart reset restart reset',
+        },
+      })
+
+      if (visualRef.current) {
+        timeline.fromTo(
+          visualRef.current,
+          { opacity: 0, x: 40, scale: 0.95 },
+          { opacity: 1, x: 0, scale: 1, duration: 1, ease: 'power3.out' },
+        )
+      }
+
+      if (eyebrowRef.current) {
+        timeline.fromTo(
+          eyebrowRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+          '-=0.8',
+        )
+      }
+
+      if (titleRef.current) {
+        timeline.fromTo(
+          titleRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+          '-=0.65',
+        )
+      }
+
+      if (textRefs.current.length > 0) {
+        timeline.fromTo(
+          textRefs.current,
+          { opacity: 0, y: 25 },
+          { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power2.out' },
+          '-=0.5',
+        )
+      }
+    }, heroRef)
+
+    return () => context.revert()
+  }, [])
+
+  const addToTextRefs = (element: HTMLParagraphElement | HTMLDivElement | null) => {
+    if (element && !textRefs.current.includes(element)) {
+      textRefs.current.push(element)
+    }
+  }
+
   const scrollTo = (selector: string) => {
     document.querySelector(selector)?.scrollIntoView({ block: 'start' })
   }
 
   return (
-    <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0b] pt-20 px-4 md:px-8">
+    <section
+      ref={heroRef}
+      id="inicio"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0b] pt-20 px-4 md:px-8"
+    >
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_35%,rgba(0,242,255,0.12),transparent_38%),radial-gradient(circle_at_80%_65%,rgba(59,130,246,0.12),transparent_35%),#0a0a0b]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b]/40 via-transparent to-[#0a0a0b]/80" />
@@ -20,21 +93,21 @@ export default function Hero() {
 
       <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 px-8">
         <div className="flex-1 text-center lg:text-left mt-8 lg:mt-0 max-w-[600px]">
-          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-mono font-bold tracking-widest uppercase mb-8 backdrop-blur-md">
+          <div ref={eyebrowRef} className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-mono font-bold tracking-widest uppercase mb-8 backdrop-blur-md">
             <span className="w-2 h-2 rounded-full bg-cyan-400" />
             Desarrollo digital de alto rendimiento
           </div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-[88px] font-medium tracking-[-0.045em] mb-8 leading-[1.04] text-white">
+          <h1 ref={titleRef} className="text-5xl md:text-7xl lg:text-[88px] font-medium tracking-[-0.045em] mb-8 leading-[1.04] text-white">
             Diseñamos tecnología<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">que convierte.</span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl font-medium leading-relaxed lg:border-l-2 lg:border-cyan-500/30 lg:pl-8 mx-auto lg:mx-0">
+          <p ref={addToTextRefs} className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl font-medium leading-relaxed lg:border-l-2 lg:border-cyan-500/30 lg:pl-8 mx-auto lg:mx-0">
             Creamos <strong className="text-white font-bold">páginas web de alto rendimiento</strong>, <strong className="text-white font-bold">sistemas web completos</strong> y <strong className="text-white font-bold">chatbots</strong> que transforman visitas y conversaciones en clientes.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <div ref={addToTextRefs} className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <button
               onClick={() => scrollTo('#contacto')}
               className="relative overflow-hidden group btn-primary px-8 py-4 rounded-2xl font-bold text-black uppercase tracking-widest text-sm shadow-[0_0_40px_rgba(0,242,255,0.4)] hover:shadow-[0_0_60px_rgba(0,242,255,0.6)] transition-all cursor-pointer"
@@ -52,7 +125,7 @@ export default function Hero() {
         </div>
 
         {/* Static Architect Element */}
-        <div className="flex-1 w-full flex justify-center relative">
+        <div ref={visualRef} className="flex-1 w-full flex justify-center relative">
           <div className="relative w-full max-w-[460px]">
             {/* Super Glow background */}
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 blur-[80px] z-0" />
@@ -96,7 +169,7 @@ export default function Hero() {
             {/* Floating Logo */}
             <div className="absolute -bottom-8 -right-4 md:-bottom-12 md:-right-12 w-32 h-32 md:w-40 md:h-40 bg-[#0a0a0b]/40 border border-white/20 rounded-[2rem] p-3 shadow-[0_30px_60px_rgba(0,0,0,0.8)] z-20 backdrop-blur-md">
               <Image
-                src="/logo_oficial.jpeg"
+                src="/logo_loofidev_2.webp"
                 alt="Logotipo de Loofi Dev - Agencia de Desarrollo Web y Software Premium"
                 width={160}
                 height={160}

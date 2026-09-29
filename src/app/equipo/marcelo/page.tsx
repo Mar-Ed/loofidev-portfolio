@@ -7,6 +7,7 @@ import Footer from "@/components/Footer"
 import CertificationCard, { TechTag } from "@/components/CertificationCard"
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import marceloPhoto from '../../../../public/fotos_dev/foto_marcelo.webp'
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -90,13 +91,21 @@ export default function MarceloPage() {
             <div className="relative rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 p-2 overflow-hidden shadow-2xl group">
               <div className="w-full aspect-[4/5] bg-[#0a0a0b] rounded-[1.2rem] relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
+                <Image
+                  src={marceloPhoto}
+                  alt=""
+                  fill
+                  aria-hidden="true"
+                  sizes="(max-width: 768px) 100vw, 400px"
+                  className="scale-110 object-cover object-center opacity-25 blur-2xl"
+                />
                 <Image 
-                  src="/fotos_dev/foto_marcelo.jpg" 
+                  src={marceloPhoto}
                   alt="Foto de perfil de Marcelo, UI/UX y Fullstack Engineer" 
                   priority
                   fill
                   sizes="(max-width: 768px) 100vw, 400px"
-                  className="object-cover object-center opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" 
+                  className="z-[1] object-contain object-center opacity-90 transition-opacity duration-700 group-hover:opacity-100" 
                 />
                 <div className="absolute bottom-6 left-6 z-20">
                   <h1 className="text-4xl font-medium leading-[1.04] tracking-[-0.045em] text-white mb-1">Marcelo</h1>
@@ -210,7 +219,7 @@ export default function MarceloPage() {
               )},
               { label: "Impacto", value: "Presentación de artículo científico sobre Inteligencia Artificial aplicada a la depresión severa en Mérida, México." }
             ]}
-            imageSrc="/fotos_dev/certificado_marcelo_congreso.jpg"
+            imageSrc="/fotos_dev/certificado_marcelo_congreso.webp"
           />
 
           <CertificationCard 
@@ -229,7 +238,7 @@ export default function MarceloPage() {
               )},
               { label: "Meta", value: "Avala los conocimientos para la certificación internacional Certified Entry-Level Python Programmer (PCEP)." }
             ]}
-            imageSrc="/fotos_dev/CERTIFICADO_MARCELO_PYTHON.jpg"
+            imageSrc="/fotos_dev/CERTIFICADO_MARCELO_PYTHON.webp"
           />
 
           <CertificationCard 
@@ -249,7 +258,7 @@ export default function MarceloPage() {
               )},
               { label: "Foco", value: "Accesibilidad web, diseño adaptativo y arquitectura de layouts modernos." }
             ]}
-            imageSrc="/fotos_dev/CERTIFICADO_MARCELO_FREECODECAMP.jpg"
+            imageSrc="/fotos_dev/CERTIFICADO_MARCELO_FREECODECAMP.webp"
           />
 
         </div>

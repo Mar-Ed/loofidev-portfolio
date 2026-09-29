@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: "Loofi Dev",
     images: [
       {
-        url: "/logo_oficial.jpeg",
+        url: "/logo_loofidev_2.webp",
         width: 800,
         height: 600,
         alt: "Loofi Dev Logo",
@@ -33,14 +33,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Loofi Dev | Agencia de Desarrollo Web",
     description: "Transformamos ideas complejas en soluciones tecnológicas escalables, eficientes y a medida.",
-    images: ["/logo_oficial.jpeg"],
+    images: ["/logo_loofidev_2.webp"],
   },
   alternates: {
     canonical: "https://loofidev.com",
   },
   icons: {
-    icon: "/logo_oficial.jpeg",
-    apple: "/logo_oficial.jpeg",
+    icon: "/logo_loofidev_2.webp",
+    apple: "/logo_loofidev_2.webp",
   },
   robots: {
     index: true,
@@ -63,7 +63,7 @@ const jsonLd = {
   "@type": "Organization",
   "name": "Loofi Dev",
   "url": "https://loofidev.com",
-  "logo": "https://loofidev.com/logo_oficial.jpeg",
+  "logo": "https://loofidev.com/logo_loofidev_2.webp",
   "sameAs": [
     "https://www.linkedin.com/company/loofidev",
     "https://www.instagram.com/loofidev"

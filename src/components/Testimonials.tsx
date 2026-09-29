@@ -1,36 +1,38 @@
 'use client'
 
 import { useState } from 'react'
+import SectionHeadingReveal from './SectionHeadingReveal'
+import SectionContentReveal from './SectionContentReveal'
 
 const mockTestimonials = [
   {
-    name: 'Valeria Mendoza',
-    role: 'Directora comercial',
-    company: 'Nexo Consultores',
-    quote: 'El nuevo sistema ordenó nuestro proceso comercial y nos permitió responder más rápido. Ahora el equipo tiene claridad sobre cada oportunidad y puede enfocarse en cerrar ventas.',
+    name: 'Brayam Sardon',
+    role: 'Director',
+    company: 'Albert Math Academy',
+    quote: 'El nuevo sistemás rápido. Ahora el equipo tiene claridad sobre cada oportunidad y puede enfocarse en crecer.',
     result: '+42%',
     resultLabel: 'oportunidades atendidas',
-    poster: '/proyectos/crm_imagen.jpeg',
+    poster: '/proyectos/ALBERT_MATH_LANDING.webp',
     video: '/videos/hero-background.mp4',
   },
   {
-    name: 'Diego Salazar',
-    role: 'Gerente de operaciones',
-    company: 'Andina Proyectos',
+    name: 'Javier Yupanqui',
+    role: 'Gerente General',
+    company: 'Inseproin SAC',
     quote: 'Pasamos de trabajar con información dispersa a controlar toda la operación desde un mismo lugar. Los reportes son claros y las decisiones toman mucho menos tiempo.',
     result: '-38%',
     resultLabel: 'tiempo en tareas manuales',
-    poster: '/proyectos/telecomunicaciones_imagen.jpeg',
+    poster: '/proyectos/INSEPROIN.webp',
     video: '/videos/hero-background.mp4',
   },
   {
-    name: 'Lucía Campos',
-    role: 'Fundadora',
-    company: 'Aura Studio',
-    quote: 'El chatbot mejoró la experiencia desde el primer contacto. Nuestros clientes pueden consultar y reservar sin esperar, mientras el equipo recibe toda la información organizada.',
+    name: 'Manuel Sanchez',
+    role: 'Coordinador',
+    company: 'Facultad de Ciencias Veterinarias - UNC',
+    quote: 'La plataforma mejoró la experiencia desde el primer contacto. Nuestros alumnos pueden consultar y acceder sin esperar, mientras el equipo recibe toda la información organizada.',
     result: '24/7',
     resultLabel: 'atención automatizada',
-    poster: '/proyectos/top_beauty_chatbot.png',
+    poster: '/proyectos/EL_MOLINO.webp',
     video: '/videos/hero-background.mp4',
   },
 ]
@@ -57,17 +59,17 @@ export default function Testimonials() {
   return (
     <section id="testimonios" className="flex min-h-screen items-center overflow-hidden bg-black px-5 py-16 md:px-8 md:py-20">
       <div className="mx-auto w-full max-w-[1080px]">
-        <header className="mx-auto max-w-4xl text-center">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-400">Testimonios</p>
-          <h2 className="mt-5 text-4xl font-medium leading-[1.02] tracking-[-0.05em] text-white md:text-5xl">
+        <SectionHeadingReveal className="mx-auto max-w-4xl text-center">
+          <p data-section-reveal className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-400">Testimonios</p>
+          <h2 data-section-reveal className="mt-5 text-4xl font-medium leading-[1.02] tracking-[-0.05em] text-white md:text-5xl">
             Historias de clientes
             <span className="block text-cyan-300">que crecieron.</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-zinc-300 md:text-base">
+          <p data-section-reveal className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-zinc-300 md:text-base">
             Una misma historia, dos formas de conocerla.
           </p>
 
-          <div className="mx-auto mt-6 inline-grid grid-cols-2 rounded-full border border-white/15 bg-white/[0.04] p-1" role="group" aria-label="Formato de testimonios">
+          <div data-section-reveal className="mx-auto mt-6 inline-grid grid-cols-2 rounded-full border border-white/15 bg-white/[0.04] p-1" role="group" aria-label="Formato de testimonios">
             <button
               type="button"
               aria-pressed={mode === 'video'}
@@ -86,15 +88,16 @@ export default function Testimonials() {
             </button>
           </div>
 
-          <p className="mt-3 font-mono text-[8px] font-bold uppercase tracking-[0.18em] text-amber-300/80">
+          <p data-section-reveal className="mt-3 font-mono text-[8px] font-bold uppercase tracking-[0.18em] text-amber-300/80">
             Contenido demostrativo · pendiente de testimonios finales
           </p>
-        </header>
+        </SectionHeadingReveal>
 
-        <div className="mt-9 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mt-10 md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
+        <SectionContentReveal className="mt-9 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mt-10 md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
           {mockTestimonials.map((testimonial, index) => (
             <article
               key={testimonial.name}
+              data-content-reveal
               className={`relative aspect-[9/13] min-w-[78vw] snap-center overflow-hidden rounded-[1.65rem] border sm:min-w-[54vw] md:h-[clamp(340px,45vh,430px)] md:min-w-0 md:aspect-auto ${mode === 'video' ? 'border-white/15 bg-[#111216]' : 'border-cyan-200/20 bg-[#eefcff]'}`}
             >
               {mode === 'video' ? (
@@ -139,15 +142,17 @@ export default function Testimonials() {
               )}
             </article>
           ))}
-        </div>
+        </SectionContentReveal>
 
-        <div className="mt-6 flex items-center justify-center gap-3" aria-hidden="true">
-          <span className="h-px w-10 bg-white/20" />
-          {mockTestimonials.map((testimonial, index) => (
-            <span key={testimonial.name} className={`rounded-full ${index === 0 ? 'h-2 w-5 bg-cyan-300' : 'h-2 w-2 bg-white/30'}`} />
-          ))}
-          <span className="h-px w-10 bg-white/20" />
-        </div>
+        <SectionContentReveal>
+          <div data-content-reveal className="mt-6 flex items-center justify-center gap-3" aria-hidden="true">
+            <span className="h-px w-10 bg-white/20" />
+            {mockTestimonials.map((testimonial, index) => (
+              <span key={testimonial.name} className={`rounded-full ${index === 0 ? 'h-2 w-5 bg-cyan-300' : 'h-2 w-2 bg-white/30'}`} />
+            ))}
+            <span className="h-px w-10 bg-white/20" />
+          </div>
+        </SectionContentReveal>
       </div>
     </section>
   )

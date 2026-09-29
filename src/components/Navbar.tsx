@@ -120,7 +120,7 @@ export default function Navbar() {
           >
             <div className="relative">
               <Image 
-                src="/logo_oficial.jpeg" 
+                src="/logo_loofidev_2.webp" 
                 alt="LOOFIDEV Logo Oficial" 
                 width={50} 
                 height={50} 
